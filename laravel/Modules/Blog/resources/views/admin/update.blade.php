@@ -2,8 +2,7 @@
 @section('title', $title)
 @section('css_block')
 @parent
-<link rel="stylesheet" href="/lib/tom-select/bootstrap5.min.css">
-<link rel="stylesheet" href="/lib/scropper/scropper.css">
+
 @endsection
 
 @section('content')
@@ -41,12 +40,6 @@
 
 @section('js_block')
 @parent
-
-
-
-
-
-
-
-
+<script src="{{ asset('lib/ckeditor/ckeditor-super.js') }}"></script>
+@vite(['Modules/Admin/resources/assets/js/editor.js'])
 @endsection

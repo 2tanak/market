@@ -9,7 +9,6 @@
 	
 	])
 
-
  
     <!-- Поле Description -->
    @include('admin::components.editor',
