@@ -24,7 +24,9 @@ start:
 	
 	
 composer_update:
-	docker compose exec php-fpm composer dump-autoload	
+	docker-compose exec php-fpm composer install
+	docker-compose exec node npm install
+	docker-compose exec php-fpm composer dump-autoload	
 
 node:
 	docker compose up -d node
