@@ -1,0 +1,13 @@
+/* Поднимаем контейнер Tom Select над остальными элементами формы */
+.ts-wrapper {
+    position: relative !important;
+    z-index: 1050 !important; /* Даем приоритет выше, чем у обычных input */
+}
+
+/* Принудительно вытаскиваем само выпадающее меню на самый верхний слой */
+.ts-dropdown {
+    position: absolute !important;
+    z-index: 99999 !important; /* Максимальный приоритет, перекроет любые инпуты */
+    background-color: #ffffff !important; /* Убедимся, что фон белый и плотный */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important; /* Добавим тень для объема */
+}
