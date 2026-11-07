@@ -68,3 +68,10 @@ clear:
 	docker-compose exec php-fpm php artisan optimize:clear
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
+	
+spatie_permission:
+	docker-compose exec php-fpm composer require spatie/laravel-permission
+	docker-compose exec php-fpm php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+	docker-compose exec php-fpm php artisan migrate
+	docker-compose exec php-fpm php artisan make:migration add_slug_to_permissions_table
+	docker-compose exec php-fpm php artisan make:migration add_slug_to_roles_table

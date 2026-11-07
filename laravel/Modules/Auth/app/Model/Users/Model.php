@@ -10,13 +10,14 @@ use Modules\Entity\Contracts\UniversalModelInterface;
 use Modules\Entity\Traits\UniversalLogic;
 use Modules\Entity\Traits\FilterModel;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class Model extends Authenticatable implements UniversalModelInterface
 {
-    use UniversalLogic, FilterModel,HasFactory, Notifiable;
+    use UniversalLogic, HasRoles, FilterModel,HasFactory, Notifiable,Presenter;
     
     protected $table = 'users';
-	protected $appends = ['input_name','input_title'];
+	//protected $appends = ['input_name','input_title'];
 	
     protected function filterClass() {
        return Filter::class;

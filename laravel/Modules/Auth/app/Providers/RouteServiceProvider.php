@@ -17,6 +17,9 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+        Route::model('user', \Modules\Auth\Model\Users\Model::class);
+        Route::model('role', \Modules\Auth\Model\Role\Model::class);
+		Route::model('permission', \Modules\Auth\Model\Permission\Model::class);
     }
 
     /**

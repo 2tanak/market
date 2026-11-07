@@ -20,7 +20,26 @@
     </div>
   </div>
 
- 
+ <div class="menu-item">
+      <input type="radio" id="menu-2" name="accordion" class="menu-radio">
+      <label for="menu-2" class="menu-link">Пользователи</label>
+      <div class="submenu">
+        <a
+          href="{{route('user.index')}}"
+          class="{{ ($rout ?? '') === 'user' ? 'active' : '' }}">
+          Список юзеров</a>
+
+        <a
+          href="{{route('role.index')}}"
+          class="{{ ($rout ?? '') === 'role' ? 'active' : '' }}">
+          Список ролей</a>
+
+        <a
+          href="{{route('permission.index')}}"
+          class="{{ ($rout ?? '') === 'permission' ? 'active' : '' }}">
+          Список прав</a>
+      </div>
+    </div>
 </nav>
 </div>
 
