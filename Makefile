@@ -1,0 +1,73 @@
+start:
+	@clear
+	#mkdir -p ./laravel
+	$(MAKE) sh
+	docker-compose down
+	docker-compose up -d --build
+	@if [ ! -d "./laravel/vendor" ]; then \
+	echo "Ожидание установки пакетов composer..."; \
+	docker-compose exec -it --user www php-fpm composer install; \
+	fi
+	@if [ ! -d "./laravel/node_modules" ]; then \
+	echo "Ожидание установки пакетов npm node_modules..."; \
+	docker-compose exec -it --user www node npm install; \
+	fi
+	docker-compose exec -d --user www node npm run dev
+	@echo "Ожидание запуска контейнеров..."
+	@sleep 3
+	@echo ""
+	@echo "========================"
+	@echo "  ПРОЕКТ УСПЕШНО ЗАПУЩЕН!"
+	@echo "  САЙТ ДОСТУПЕН ПО АДРЕСУ: http://localhost"
+	@echo "========================"
+	@echo ""
+	
+	
+composer_update:
+	docker compose exec php-fpm composer dump-autoload	
+
+node:
+	docker compose up -d node
+	sed -i 's/\r$//' start.sh
+	chmod +x start.sh
+	
+sh:
+	#sed -i 's/\r$//' start.sh
+	chmod +x start.sh
+	./start.sh
+
+pr_install:
+	docker-compose exec php-fpm composer create-project laravel/laravel .
+	
+
+
+chmod:
+	chmod -R 775 ./laravel/.env
+	docker-compose exec --user root php-fpm chmod -R 775 /var/www/app/storage /var/www/app/bootstrap/cache
+	docker-compose exec --user root php-fpm chmod -R g+s /var/www/app/storage /var/www/app/bootstrap/cache
+	docker-compose exec --user root php-fpm chown -R 1000:1000 /var/www/app/storage /var/www/app/bootstrap/cache
+
+v_13:
+	docker-compose exec php-fpm php artisan config:publish database
+	
+nwidart:
+	docker-compose exec --user www php-fpm composer require nwidart/laravel-modules
+	docker-compose exec --user www php-fpm php artisan vendor:publish --provider="Nwidart\Modules\LaravelModulesServiceProvider"
+	docker-compose exec --user www php-fpm php artisan module:make Admin
+	docker-compose exec --user www php-fpm php artisan module:make Auth
+	docker-compose exec --user www php-fpm php artisan module:make Entity
+	docker-compose exec --user www php-fpm composer dump-autoload
+	
+migrate:
+	docker-compose exec php-fpm php artisan migrate
+	docker-compose exec php-fpm php artisan migrate:fresh --seed
+	
+spatie_permission:
+	docker-compose exec php-fpm composer require spatie/laravel-permission
+	docker-compose exec php-fpm	php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+	docker-compose exec php-fpm	php artisan migrate
+	docker-compose exec php-fpm php artisan make:migration add_slug_to_permissions_table
+	docker-compose exec php-fpm php artisan make:migration add_slug_to_roles_table
+
+
+

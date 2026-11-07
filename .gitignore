@@ -1,0 +1,7 @@
+/docker/mysql
+/.idea
+/.vscode
+/laravel/vendor
+/laravel/public/css/*
+/laravel/public/css
+/laravel/node_modules
