@@ -1,0 +1,51 @@
+/* Центрируем контейнер */
+.pagination-wrapper {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Сетка для самих квадратов */
+.custom-pagination {
+    display: flex;
+    gap: 8px; /* Четкий отступ между кнопками, они больше не сольются */
+}
+
+/* Общие стили для каждого квадрата */
+.custom-pagination .page-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #0b132b; /* Темный фон */
+    border: 1px solid #00abcd50; /* Полупрозрачная голубая рамка */
+    color: #00bcd4; /* Голубой текст */
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+/* Эффект при наведении */
+.custom-pagination a.page-item:hover {
+    border-color: #00bcd4;
+    color: #ffffff;
+    background-color: #111a36;
+}
+
+/* Активная страница */
+.custom-pagination .page-item.active {
+    color: #ffffff;
+    border-color: #00bcd4;
+    background-color: #112240;
+    font-weight: 600;
+}
+
+/* Троеточие */
+.custom-pagination .page-item.disabled {
+    cursor: default;
+    opacity: 0.6;
+}

@@ -1,12 +1,13 @@
 .burger-checkbox:checked ~ .content .right-bar {
   width:100%;
   z-index:20;
+  
 }
 
 
 .right-bar{
-	
+	display:flex;
 	width: calc(100% - 250px);
-	height:500px;
+	flex-direction:column;
 	background:#fff;
 }

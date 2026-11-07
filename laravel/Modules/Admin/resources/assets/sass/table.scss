@@ -1,0 +1,207 @@
+ 
+
+        /* Контейнер таблицы */
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+             /* Скругление углов таблицы */
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Сама таблица */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        /* Шапка таблицы */
+        .custom-table th {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 24px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        /* Ячейки строк */
+        .custom-table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 15px;
+            vertical-align: top;
+        }
+
+        /* Подсветка строк при наведении */
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Стили для колонки Название (делаем жирнее) */
+        .col-title {
+            font-weight: 600;
+            color: #1e293b;
+            width: 25%;
+        }
+
+        /* Стили для описания (ограничиваем ширину, если текст длинный) */
+        .col-description {
+            color: #64748b;
+            line-height: 1.5;
+            width: 55%;
+        }
+
+        /* Стили для даты (красивый бейдж) */
+        .col-date {
+            width: 20px;
+            white-space: nowrap;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .custom-table th { display: none; } /* Скрываем шапку на мобилках */
+            .custom-table td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+                padding: 10px 20px;
+            }
+            .custom-table td:first-child { padding-top: 20px; }
+            .custom-table td:last-child { 
+                padding-bottom: 20px; 
+                border-bottom: 2px solid #e2e8f0;
+            }
+        }
+		
+		
+		
+		
+		
+/* --- Стили для правой колонки в шапке (изменить и удалить) --- */
+.col-actions-header {
+    width: 120px;
+    text-align: right;
+    padding-right: 24px !important; /* Выравниваем по правому краю таблицы */
+}
+
+/* --- Зеленая кнопка "Добавить" внутри ячейки --- */
+.btn-add {
+    display: inline-block;
+    background-color: #4caf50; /* Зеленый цвет */
+    color: white;
+    text-decoration: none;
+    padding: 6px 16px;       /* Сделали чуть компактнее для шапки */
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: lowercase; /* Все буквы маленькие как на скрине */
+    transition: background 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: #43a047;
+}
+
+/* --- Ячейки действий в строках --- */
+.col-actions {
+    text-align: right;
+    padding-right: 24px !important;
+    position: relative;
+    overflow: visible !important; /* Чтобы выпадашка не скрывалась под таблицу */
+}
+
+.action-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.action-checkbox {
+    display: none;
+}
+
+/* --- Синяя кнопка-бургер --- */
+.btn-action-trigger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    width: 32px;
+    height: 32px;
+    background-color: #2196f3; /* Синий цвет */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-left: auto; /* Прижимает к правому краю внутри ячейки */
+}
+
+.btn-action-trigger:hover {
+    background-color: #1e88e5;
+}
+
+.btn-action-trigger span {
+    display: block;
+    width: 14px;
+    height: 2px;
+    background-color: white;
+    border-radius: 1px;
+}
+
+/* --- Выпадающее меню --- */
+.action-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 36px;
+    background-color: white;
+    min-width: 130px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    z-index: 100;
+    text-align: left;
+}
+
+.action-link {
+    display: block;
+    padding: 10px 16px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.15s ease;
+}
+
+.action-link:hover {
+    background-color: #f1f5f9;
+}
+
+.delete-link:hover {
+    color: #ef4444;
+    background-color: #fef2f2;
+}
+
+/* Открытие меню по клику */
+.action-checkbox:checked ~ .action-menu {
+    display: block;
+}
+.action-dropdown.active .action-menu {
+    display: block;
+}

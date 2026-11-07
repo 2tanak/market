@@ -1,0 +1,94 @@
+/* Контейнер для формы */
+
+.need_validate_form{
+.admin-form {
+    max-width: 600px; /* Чтобы форма не растягивалась во всю ширину экрана */
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Отступы между блоками полей */
+}
+
+/* Группа: Лейбл + Инпут */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Отступ между названием и самим полем */
+}
+
+/* Стилизация текстовых меток */
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155; /* Приятный темный цвет */
+}
+
+/* Общие стили для всех полей ввода и селектов */
+.form-control, .form-select, .form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 15px;
+    color: #1e293b;
+    background-color: #fff;
+    border: 1px solid #cbd5e1; /* Светлая аккуратная рамка */
+    border-radius: 6px; /* Мягкое скругление */
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; /* Плавный фокус */
+    box-sizing: border-box;
+}
+
+/* Эффект при клике на поле (Фокус) */
+.form-control:focus, .form-select:focus, .form-textarea:focus {
+    border-color: #3b82f6; /* Синий цвет Laravel/Tailwind */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* Мягкое свечение */
+}
+
+/* Высота для текстового поля */
+.form-textarea {
+    min-height: 120px;
+    resize: vertical; /* Разрешаем тянуть только по вертикали */
+}
+
+/* Стильная кнопка отправки */
+.btn-submit {
+    align-self: flex-start; /* Чтобы кнопка не растягивалась на всю ширину */
+    background-color: #2563eb;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8; /* Потемнение при наведении */
+}
+/* Исправление выравнивания текста в поле Description */
+textarea.form-textarea, .form-textarea {
+    text-align: left !important;  /* Сбрасываем случайное выравнивание по правому краю */
+    direction: ltr !important;   /* Направление текста слева направо */
+    padding: 12px;
+}
+
+
+button, input[type="submit"] {
+   
+    background-color: #2563eb; /* Приятный синий цвет */
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #1d4ed8; /* Потемнение при наведении */
+}
+}

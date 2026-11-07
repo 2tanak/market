@@ -1,5 +1,6 @@
 {
     "Admin": true,
     "Auth": true,
-    "Entity": true
+    "Entity": true,
+    "Blog": true
 }
