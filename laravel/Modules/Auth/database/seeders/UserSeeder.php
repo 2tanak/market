@@ -3,7 +3,7 @@
 namespace Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Entity\Model\Users\Model as User;
+use Modules\Auth\Model\Users\Model as User;
 
 
 class UserSeeder extends Seeder
