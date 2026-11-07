@@ -10,5 +10,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	  Route::get('login', [AuthController::class, 'index'])->name('login');
 		
 	  Route::post('check', [AuthController::class, 'check_login'])->name('check_login');
-		
+	  
+	  Route::any('logout', [AuthController::class, 'logout'])->name('admin_logout');
  });

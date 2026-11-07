@@ -1,0 +1,16 @@
+<?php
+
+namespace Modules\Entity\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class EntityDatabaseSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // $this->call([]);
+    }
+}
