@@ -2,7 +2,6 @@
 @section('title', $title)
 @section('css_block')
 @parent
-<link rel="stylesheet" href="/lib/tom-select/bootstrap5.min.css">
 <link rel="stylesheet" href="/lib/scropper/scropper.css">
 @endsection
 
@@ -40,13 +39,8 @@
 @endsection
 
 @section('js_block')
+<script src="/lib/scropper/scropper.js"></script>
+@vite(['Modules/Admin/resources/assets/js/avatar_scopper.js'])
 @parent
-
-
-
-
-
-
-
 
 @endsection

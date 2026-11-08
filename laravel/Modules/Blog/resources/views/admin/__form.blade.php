@@ -1,6 +1,6 @@
 <div class="admin-form">
 
-
+@include('admin::components.image',['model'=>$model])
 
 @include('admin::components.input',
 	['title' => 'title',
