@@ -13,7 +13,10 @@ trait MainListMethod
 
 	public function index(Request $request)
 	{
+// Добавьте обратный слэш перед Throwable, чтобы обратиться к глобальному классу PHP
 
+
+	
 		$items = $this->def_model::filter($request)->latest()->paginate(env('PAGINATION_LIMIT', 5));
 
 		$title = trans($this->title_path . '.index');
