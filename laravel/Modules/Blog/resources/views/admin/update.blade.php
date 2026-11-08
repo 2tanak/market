@@ -2,8 +2,7 @@
 @section('title', $title)
 @section('css_block')
 @parent
-<link rel="stylesheet" href="/lib/tom-select/bootstrap5.min.css">
-<link rel="stylesheet" href="/lib/scropper/scropper.css">
+
 @endsection
 
 @section('content')
@@ -40,6 +39,7 @@
 @endsection
 
 @section('js_block')
+@vite(['Modules/Admin/resources/assets/js/custom_slider.js'])
 @parent
 
 

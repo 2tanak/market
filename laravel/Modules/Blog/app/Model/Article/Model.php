@@ -2,7 +2,7 @@
 namespace Modules\Blog\Model\Article;
 use Modules\Entity\ModelParent;
 use Modules\Entity\Model\File\Model as File;
-
+use Modules\Blog\Events\ArticleSaving;
 
 class Model extends ModelParent
 {
@@ -11,7 +11,9 @@ class Model extends ModelParent
     
     protected $fillable = ['title', 'description', 'publish'];
 
-    
+    protected $dispatchesEvents = [
+        'saving' => ArticleSaving::class,
+    ];
 
    function files()
     {

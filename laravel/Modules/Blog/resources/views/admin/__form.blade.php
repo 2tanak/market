@@ -19,15 +19,8 @@
 	'id'   => 'editor'
 	])
 	
+@include('admin::components.slider',['model'=>$model])
 
-
-	
-
-
-	
-	
-	
-	
 </div>
 
 @section('js_block')
