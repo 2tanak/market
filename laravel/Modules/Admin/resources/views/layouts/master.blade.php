@@ -33,7 +33,7 @@
 		   
 
 		</div>
-		@if($model?->id)
+		@if(isset($model?->id))
           @include('admin::list_language')
 	    @endif
       </div>

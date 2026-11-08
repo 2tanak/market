@@ -9,7 +9,12 @@
 	
 	])
 
-
+   @include('admin::components.select',
+	[
+	'title'  => 'publish',
+	'value'  => 1,
+	'option' => array_combine([1, 0],['publish','blocked'])
+	])
  
     <!-- Поле Description -->
    @include('admin::components.editor',
