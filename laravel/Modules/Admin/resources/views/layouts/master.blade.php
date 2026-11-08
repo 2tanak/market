@@ -30,8 +30,12 @@
 		   @include('admin::__block.page_header')
 		   @include('admin::__block.notifications')
            @yield('content')
-		</div>
+		   
 
+		</div>
+		@if($model?->id)
+          @include('admin::list_language')
+	    @endif
       </div>
 
 
