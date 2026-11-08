@@ -4,6 +4,9 @@ namespace Modules\Auth\Providers;
 
 use Nwidart\Modules\Support\ModuleServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
+use Modules\Auth\Policies\UserPolicy;
+use Illuminate\Support\Facades\Gate;
+use Modules\Auth\Model\Users\Model as User;
 
 class AuthServiceProvider extends ModuleServiceProvider
 {
@@ -43,4 +46,21 @@ class AuthServiceProvider extends ModuleServiceProvider
     // {
     //     $schedule->command('inspire')->hourly();
     // }
+	
+	
+	public function boot(): void
+    {
+		
+        // Сначала запускаем логику родительского провайдера nwidart
+        parent::boot();
+
+        // 2. РЕГИСТРИРУЕМ ПОЛИТИКУ ДЛЯ МОДЕЛИ ЮЗЕРА НА ЛЕТУ
+        Gate::policy(User::class, UserPolicy::class);
+        
+       
+    }
+	
+	
+	
+	
 }

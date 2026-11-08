@@ -13,7 +13,8 @@ trait MainListMethod
 
 	public function index(Request $request)
 	{
-
+		
+        $this->authorize('list', $this->def_model);
 		$items = $this->def_model::filter($request)->latest()->paginate(env('PAGINATION_LIMIT', 5));
 
 		$title = trans($this->title_path . '.index');

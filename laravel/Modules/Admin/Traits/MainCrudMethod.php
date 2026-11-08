@@ -3,6 +3,7 @@
 namespace Modules\Admin\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 
 trait MainCrudMethod
@@ -13,5 +14,5 @@ trait MainCrudMethod
     use MainUpdateMethod;
     use MainDeleteMethod;
     use MainShowMethod;
-    //use Utils;
+    use AuthorizesRequests;
 }
