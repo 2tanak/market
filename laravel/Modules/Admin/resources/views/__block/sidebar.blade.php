@@ -19,7 +19,7 @@
       
     </div>
   </div>
-
+@can('view_design')
  <div class="menu-item">
       <input type="radio" id="menu-2" name="accordion" class="menu-radio">
       <label for="menu-2" class="menu-link">Пользователи</label>
@@ -40,6 +40,9 @@
           Список прав</a>
       </div>
     </div>
+	@endcan
+	
+	
 </nav>
 </div>
 
