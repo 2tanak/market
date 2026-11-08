@@ -25,5 +25,15 @@ class EditorImageServiceProvider extends ServiceProvider
     {
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
         $loader->alias('EditorImage', EditorImage::class);
+		
+		   foreach ($this->listen as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                \Illuminate\Support\Facades\Event::listen($event, $listener);
+            }
+        }
+		
+		
+		
+		
     }
 }
