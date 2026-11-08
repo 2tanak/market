@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Auth\database\seeders\AuthDatabaseSeeder;
 use Modules\Blog\database\seeders\BlogDatabaseSeeder;
+use Modules\Entity\database\seeders\EntityDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AuthDatabaseSeeder::class,
 			BlogDatabaseSeeder::class,
+			EntityDatabaseSeeder::class,
         ]);
     }
 }
