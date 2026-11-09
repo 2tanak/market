@@ -19,7 +19,19 @@
       
     </div>
   </div>
-
+  <!-- Пункт 3 -->
+ <div class="menu-item">
+    <input type="radio" id="grafika" name="accordion" class="menu-radio">
+    <label for="grafika" class="menu-link">графика</label>
+    <div 
+	  class='submenu'
+	  >
+      <a href="{{ route('charline') }}" class="{{ ($rout ?? '') === 'charline' ? 'active' : '' }}">
+            Линейный график
+      </a>
+      
+    </div>
+  </div>
  
 </nav>
 </div>

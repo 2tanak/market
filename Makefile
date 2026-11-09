@@ -75,3 +75,4 @@ grafika:
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
 	docker-compose exec node npm install axios --save-dev
 	npm install socket.io-client --save-dev
+	docker compose exec node npm install chart.js vue-chartjs
