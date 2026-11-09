@@ -7,7 +7,11 @@ use Modules\Grafika\Http\Controllers\CharController;
 Route::middleware(['auth', 'verified'])->group(function () {
    
 	Route::prefix('grafika')->group(function() {
-		Route::get('charline', [CharController::class, 'charline'])->name('charline');
+		//char линейный
+       //для запроса аяксом линейного
+	   Route::get('/char', [CharController::class, 'char'])->name('char');
+	   //показ графика
+       Route::get('charline', [CharController::class, 'charline'])->name('charline');
 		 
 	});
 	

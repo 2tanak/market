@@ -2,8 +2,6 @@
 
 
 @section('content')
-
-
 <div id="app">
 <charsline></charsline>
 </div>
