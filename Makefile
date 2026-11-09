@@ -58,6 +58,7 @@ nwidart:
 	docker-compose exec --user www php-fpm php artisan module:make Admin
 	docker-compose exec --user www php-fpm php artisan module:make Auth
 	docker-compose exec --user www php-fpm php artisan module:make Entity
+	docker-compose exec --user www php-fpm php artisan module:make Grafika
 	docker-compose exec --user www php-fpm composer dump-autoload
 	
 migrate:
@@ -72,5 +73,5 @@ clear:
 grafika:
 	docker-compose exec node npm install vue @vitejs/plugin-vue
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
-	npm install axios --save-dev
+	docker-compose exec node npm install axios --save-dev
 	npm install socket.io-client --save-dev

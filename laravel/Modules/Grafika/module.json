@@ -1,0 +1,11 @@
+{
+    "name": "Grafika",
+    "alias": "grafika",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Grafika\\Providers\\GrafikaServiceProvider"
+    ],
+    "files": []
+}
