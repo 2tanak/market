@@ -13,6 +13,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	   //показ графика
        Route::get('charline', [CharController::class, 'charline'])->name('charline');
 		 
+		 //char круг
+       Route::get('/charkrug', [CharController::class, 'charkrug'])->name('charkrug');
+       Route::any('/charviewkrug', [CharController::class, 'charviewkrug'])->name('charviewkrug');//показ графика
+		 
+		 
+		 
 	});
 	
 	

@@ -9,7 +9,8 @@ const app = createApp({});
 import CharlineComponent from './components/CharlineComponent.vue';
 app.component('charsline', CharlineComponent);
 
-
+import KrugcharComponent from './components/KrugcharComponent.vue';
+app.component('krugChar', KrugcharComponent);
 
 
 

@@ -29,7 +29,9 @@
       <a href="{{ route('charline') }}" class="{{ ($rout ?? '') === 'charline' ? 'active' : '' }}">
             Линейный график
       </a>
-      
+      <a href="{{ route('charkrug') }}" class="{{ ($rout ?? '') === 'charline' ? 'active' : '' }}">
+            Круговой график
+      </a>
     </div>
   </div>
  
