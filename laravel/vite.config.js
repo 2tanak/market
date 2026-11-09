@@ -31,6 +31,14 @@ export default defineConfig(({ mode }) => {
                 }),
             ],
         }),
+		vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
         tailwindcss(),
     ],
 	 resolve: {
