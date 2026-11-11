@@ -75,3 +75,11 @@ grafika:
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
 	npm install axios --save-dev
 	npm install socket.io-client --save-dev
+	
+chat:
+	docker-compose exec node npm install cors
+	docker-compose exec node npm install cors --loglevel verbose
+	docker-compose exec node npm install express --maxsockets=1 --no-audit --no-fund --loglevel verbose
+	docker-compose exec node npm install ioredis
+	docker-compose exec node npm install nodemon
+	docker-compose exec node npm install nodemon socket.io
