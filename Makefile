@@ -75,17 +75,3 @@ grafika:
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
 	npm install axios --save-dev
 	npm install socket.io-client --save-dev
-	
-chat:
-	docker-compose exec node npm install;
-	docker-compose exec -it --user www node npm install cors;
-	docker-compose exec -it --user www node npm install express;
-	docker-compose exec -it --user www node npm install ioredis;
-	docker-compose exec -it --user www node npm install nodemon;
-	docker-compose exec -it --user www node npm install socket.io;
-	docker-compose exec -it --user www node npm install socket.io;
-	docker-compose exec -it --user www node npm install socket.io-client;
-	docker compose exec -u root node chown -R 1000:1000 /var/www/app/node_modules
-	
-rm:
-	sudo rm -R node_modules
