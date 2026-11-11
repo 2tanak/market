@@ -77,6 +77,7 @@ services:
       - "5173:5173"
     volumes:
       - ./laravel:/var/www/app
+      - node_modules:/var/www/app/node_modules 
     working_dir: /var/www/app
     tty: true
     user: "${USER_UID:-1000}:${USER_GID:-1000}" 
@@ -88,3 +89,6 @@ networks:
   node_net:
     driver: bridge
     name: node_net
+
+volumes:
+  node_modules: 

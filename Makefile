@@ -8,8 +8,9 @@ start:
 	echo "Ожидание установки пакетов composer..."; \
 	docker-compose exec -it --user www php-fpm composer install; \
 	fi
-	@if [ ! -d "./laravel/node_modules" ]; then \
+	if ! docker-compose exec node test -d /var/www/app/node_modules/.bin; then \
 	echo "Ожидание установки пакетов npm node_modules..."; \
+	docker-compose exec -u root node chown -R www:www /var/www/app/node_modules; \
 	docker-compose exec -it --user www node npm install; \
 	fi
 	docker-compose exec -d --user www node npm run dev
@@ -68,3 +69,23 @@ clear:
 	docker-compose exec php-fpm php artisan optimize:clear
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
+	
+grafika:
+	docker-compose exec node npm install vue @vitejs/plugin-vue
+	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
+	npm install axios --save-dev
+	npm install socket.io-client --save-dev
+	
+chat:
+	docker-compose exec node npm install;
+	docker-compose exec -it --user www node npm install cors;
+	docker-compose exec -it --user www node npm install express;
+	docker-compose exec -it --user www node npm install ioredis;
+	docker-compose exec -it --user www node npm install nodemon;
+	docker-compose exec -it --user www node npm install socket.io;
+	docker-compose exec -it --user www node npm install socket.io;
+	docker-compose exec -it --user www node npm install socket.io-client;
+	docker compose exec -u root node chown -R 1000:1000 /var/www/app/node_modules
+	
+rm:
+	sudo rm -R node_modules
