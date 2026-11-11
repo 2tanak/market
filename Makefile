@@ -63,6 +63,7 @@ nwidart:
 	docker-compose exec --user www php-fpm php artisan module:make Admin
 	docker-compose exec --user www php-fpm php artisan module:make Auth
 	docker-compose exec --user www php-fpm php artisan module:make Entity
+	docker-compose exec --user www php-fpm php artisan module:make Chat
 	docker-compose exec --user www php-fpm composer dump-autoload
 	
 migrate:

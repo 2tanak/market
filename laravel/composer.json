@@ -31,7 +31,8 @@
 			"Modules\\Admin\\": "Modules/Admin/app/",
 			"Modules\\Auth\\": "Modules/Auth/app/",
 			"Modules\\Entity\\": "Modules/Entity/app/",
-			"Modules\\Blog\\": "Modules/Blog/app/"
+			"Modules\\Blog\\": "Modules/Blog/app/",
+			"Modules\\Chat\\": "Modules/Chat/app/"
         }
     },
     "autoload-dev": {
