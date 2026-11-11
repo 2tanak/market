@@ -19,7 +19,18 @@
       
     </div>
   </div>
-
+ <div class="menu-item">
+    <input type="radio" id="chat" name="accordion" class="menu-radio">
+    <label for="chat" class="menu-link">чаты</label>
+    <div 
+	  class='submenu'
+	  >
+      <a href="{{ route('chat') }}" class="{{ ($rout ?? '') === 'designed' ? 'active' : '' }}">
+            чат
+      </a>
+      
+    </div>
+  </div>
  
 </nav>
 </div>
