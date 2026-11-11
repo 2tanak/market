@@ -16,9 +16,7 @@ start:
 	docker-compose exec -u root node chown -R www:www /var/www/app/node_modules; \
 	docker-compose exec -it --user www node npm install; \
 	fi
-	docker-compose exec node npm config set maxsockets 2
-	docker-compose exec node npm config set audit false
-	docker-compose exec node npm config set fund false
+	docker exec -d node npm run server
 	docker-compose exec -d --user www node npm run dev
 	@echo "Ожидание запуска контейнеров..."
 	@sleep 3

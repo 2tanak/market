@@ -105,12 +105,8 @@ networks:
   node_net:
     driver: bridge
     name: node_net
-<<<<<<< HEAD
 
 volumes:
   node_modules: 
-=======
-    
-volumes:
   redis_data:
->>>>>>> predis
+

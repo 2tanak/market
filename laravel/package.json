@@ -3,8 +3,9 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "dev": "vite",
         "build": "vite build",
-        "dev": "vite"
+        "server": "nodemon --env-file=./.env server.js"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
