@@ -4,6 +4,9 @@ start:
 	$(MAKE) sh
 	docker-compose down
 	docker-compose up -d --build
+	docker-compose exec node npm config set maxsockets 2
+	docker-compose exec node npm config set audit false
+	docker-compose exec node npm config set fund false
 	@if [ ! -d "./laravel/vendor" ]; then \
 	echo "Ожидание установки пакетов composer..."; \
 	docker-compose exec -it --user www php-fpm composer install; \
@@ -13,6 +16,9 @@ start:
 	docker-compose exec -u root node chown -R www:www /var/www/app/node_modules; \
 	docker-compose exec -it --user www node npm install; \
 	fi
+	docker-compose exec node npm config set maxsockets 2
+	docker-compose exec node npm config set audit false
+	docker-compose exec node npm config set fund false
 	docker-compose exec -d --user www node npm run dev
 	@echo "Ожидание запуска контейнеров..."
 	@sleep 3
@@ -81,5 +87,7 @@ chat:
 	docker-compose exec node npm install cors --loglevel verbose
 	docker-compose exec node npm install express --maxsockets=1 --no-audit --no-fund --loglevel verbose
 	docker-compose exec node npm install ioredis
-	docker-compose exec node npm install nodemon
-	docker-compose exec node npm install nodemon socket.io
+	docker-compose exec node npm install nodemon --maxsockets=1 --no-audit --no-fund --loglevel verbose
+	docker-compose exec node npm install socket.io --maxsockets=1 --no-audit --no-fund 
+	docker-compose exec node npm install socket.io-client --maxsockets=1 --no-audit --no-fund --loglevel verbose
+
