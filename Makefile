@@ -76,6 +76,9 @@ clear:
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
 	
+redis:
+	docker-compose exec php-fpm composer require predis/predis
+	
 grafika:
 	docker-compose exec node npm install vue @vitejs/plugin-vue
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
