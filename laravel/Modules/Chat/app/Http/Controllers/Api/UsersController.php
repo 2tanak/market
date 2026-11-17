@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redis;
 use Modules\Entity\Model\Messages\Model as Message;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
-//use Modules\Chat\Model\Chat\Model as Chat;
+use Modules\Chat\Model\Chats\Model as Chat;
 
 class UsersController extends Controller
 {
