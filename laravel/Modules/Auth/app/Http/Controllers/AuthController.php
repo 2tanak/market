@@ -28,6 +28,7 @@ class AuthController extends Controller
                 if ($request->ajax()) {
 
                     $user = $request->user();
+					$request->session()->regenerate();
                     return response()->json([
                         'success' => true,
                         'user'    => $user
