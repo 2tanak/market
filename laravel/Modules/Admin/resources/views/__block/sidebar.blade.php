@@ -25,7 +25,7 @@
     <div 
 	  class='submenu'
 	  >
-      <a href="{{ route('chats') }}" class="{{ ($rout ?? '') === 'designed' ? 'active' : '' }}">
+      <a href="{{ route('chat') }}" class="{{ ($rout ?? '') === 'designed' ? 'active' : '' }}">
             чаты
       </a>
       

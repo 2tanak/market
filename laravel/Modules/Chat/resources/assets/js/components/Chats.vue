@@ -15,7 +15,7 @@
             <!-- Верхняя строка: Имя + Дата -->
             <div class="contact-row">
               <span class="contact-name">{{ contact.name }}</span>
-              <span class="contact-date">14:20</span>
+              <span class="contact-date"></span>
             </div>
 
             <!-- Нижняя строка: Статус/Текст + Счетчики -->
@@ -53,16 +53,16 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
-import useUserStore from '@chat/stores/userStore';
-import { getSocket } from '@socket/socketService';
-import useOnlineStore from '@chat/stores/onlineStore.js';
-import { handleActivity } from '@chat/utils/chat.js';
+//import useUserStore from '@chat/stores/userStore';
+//import { getSocket } from '@socket/socketService';
+//import useOnlineStore from '@chat/stores/onlineStore.js';
+//import { handleActivity } from '@chat/utils/chat.js';
 
 export default {
   setup() {
-    const userStore = useUserStore();
-	const isOnlineStore = useOnlineStore();
-    return { userStore,isOnlineStore };
+    //const userStore = useUserStore();
+	//const isOnlineStore = useOnlineStore();
+    //return { userStore,isOnlineStore };
   },
 
 
@@ -78,22 +78,22 @@ export default {
   },
   computed: {
     loading(){
-	   return this.userStore.loading
+	   //return this.userStore.loading
 	},
 	hasMore(){
-	   return this.userStore.hasMore;
+	   //return this.userStore.hasMore;
 	},
     users() {
-      const users = this.userStore.users;
-      return users;
+      //const users = this.userStore.users;
+      //return users;
     }
   },
   methods: {
    
     someMethod(contact) {
-		handleActivity(this.socket,this.isOnlineStore);
-        this.userStore.setUser(contact);
-        this.$router.push(`/chat/${contact.id}`)
+		//handleActivity(this.socket,this.isOnlineStore);
+        //this.userStore.setUser(contact);
+        //this.$router.push(`/chat/${contact.id}`)
     },
 
 
@@ -121,12 +121,12 @@ export default {
   mounted() {
    
 	 const token = window.apiToken;
-	 this.userStore.setToken(token);
+	 //this.userStore.setToken(token);
 	 if(this.user){
 		this.userStore.setUser(this.user);
 	 }
-     this.userStore.fetchUsers(this.page);
-	 this.socket = getSocket();
+     //this.userStore.fetchUsers(this.page);
+	 //this.socket = getSocket();
 	
   }
 };
