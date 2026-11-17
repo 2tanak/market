@@ -72,3 +72,10 @@ clear:
 sanctum:
 	docker-compose exec php-fpm php artisan install:api
 	docker-compose exec php-fpm php artisan config:publish cors
+
+grafika:
+	docker-compose exec node npm install vue @vitejs/plugin-vue
+	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
+	npm install axios --save-dev
+	npm install socket.io-client --save-dev
+
