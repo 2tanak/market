@@ -68,3 +68,7 @@ clear:
 	docker-compose exec php-fpm php artisan optimize:clear
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
+	
+sanctum:
+	docker-compose exec php-fpm php artisan install:api
+	docker-compose exec php-fpm php artisan config:publish cors

@@ -10,10 +10,11 @@ use Modules\Entity\Contracts\UniversalModelInterface;
 use Modules\Entity\Traits\UniversalLogic;
 use Modules\Entity\Traits\FilterModel;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class Model extends Authenticatable implements UniversalModelInterface
 {
-    use UniversalLogic, FilterModel,HasFactory, Notifiable;
+    use HasApiTokens, UniversalLogic, FilterModel,HasFactory, Notifiable;
     
     protected $table = 'users';
 	protected $appends = ['input_name','input_title'];
