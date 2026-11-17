@@ -1,0 +1,12 @@
+html,body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  /* Тот самый запрет скролла */
+}
+
+.content {
+  height: 100vh;
+  display: flex;
+}

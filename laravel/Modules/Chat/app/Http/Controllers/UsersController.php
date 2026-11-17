@@ -19,7 +19,7 @@ public function chat(Users $user,Request $request){
 
 $authUser = auth()->user();
 $token = $this->verify_token($authUser);
-	dd(5);
+	
 return view('chat::chat',[
   'user' =>$user,
   'auth' => $authUser,
