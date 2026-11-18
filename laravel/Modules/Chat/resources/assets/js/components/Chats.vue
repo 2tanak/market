@@ -1,51 +1,6 @@
 <template>
-  <div class="scroll-area" @scroll="handleScroll">
-    <ul class="navigation navigation-main navigation-accordion">
-      <li v-for="contact in users" :key="contact.id" class="contact-item">
-
-        <a href="javascript:void(0)" @click.prevent="someMethod(contact)" class="contact-link">
-          <!-- Лево: Аватар -->
-          <div class="avatar-wrapper">
-            <div class="avatar-circle">БХ</div>
-          </div>
-
-          <!-- Центр и Право: основной контент -->
-          <div class="contact-content">
-
-            <!-- Верхняя строка: Имя + Дата -->
-            <div class="contact-row">
-              <span class="contact-name">{{ contact.name }}</span>
-              <span class="contact-date"></span>
-            </div>
-
-            <!-- Нижняя строка: Статус/Текст + Счетчики -->
-            <div class="contact-row">
-              <div class="text-block">
-                <span v-if="contact.online === 'online'" class="status-online">в сети</span>
-                <p v-if="contact?.last_message?.text" class="last-msg-text">
-                  {{ contact.last_message.text.length > 50 ? contact.last_message.text.slice(0, 50) + '...' :
-                    contact.last_message.text }}
-                </p>
-              </div>
-
-              <div v-if="contact.unread_count > 0" class="meta-block">
-                <span class="unread-count">{{ contact.unread_count }}</span>
-              </div>
-            </div>
-
-          </div>
-        </a>
-      </li>
-
-
-
-      <!-- Лоадер -->
-      <li v-if="loading" class="loader-item">
-        <div class="spinner"></div>
-        <span></span>
-      </li>
-
-    </ul>
+  <div>
+   ddddddddddddddddddddddddddddd
   </div>
 </template>
 

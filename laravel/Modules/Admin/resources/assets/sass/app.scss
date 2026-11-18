@@ -12,10 +12,8 @@
 }
 .main-content{
  display:flex;
-  
- flex-grow: 1;
- 
- grid-gap:20px;
+  flex-grow: 1;
+  grid-gap:20px;
 }
 .content{
 flex-basis: 100%;
