@@ -26,10 +26,13 @@ services:
     environment:
       - "DB_PORT=${DB_PORT}"
       - "DB_HOST=${DB_HOST}"
+      - REDIS_HOST=redis
+      - "REDIS_PORT=${REDIS_PORT}"
     ports:
       - "8080:8080" # reverb port
     depends_on:
       - mysql
+      - redis
     networks:
       - node_net
     container_name: php-fpm
@@ -77,6 +80,7 @@ services:
       - "5173:5173"
     volumes:
       - ./laravel:/var/www/app
+      - node_modules:/var/www/app/node_modules 
     working_dir: /var/www/app
     tty: true
     user: "${USER_UID:-1000}:${USER_GID:-1000}" 
@@ -84,7 +88,25 @@ services:
     networks:
      - node_net
     
+  redis:
+    image: "redis:alpine"
+    #command: redis-server --requirepass sOmE_sEcUrE_pAsS --appendonly yes
+    container_name: redis
+    ports:
+     - "6379:6379"
+    volumes:
+      #- .:/var/www/app
+      - redis_data:/data
+    networks:
+     - node_net
+    
+    
 networks:
   node_net:
     driver: bridge
     name: node_net
+
+volumes:
+  node_modules: 
+  redis_data:
+
