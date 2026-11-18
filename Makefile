@@ -4,14 +4,19 @@ start:
 	$(MAKE) sh
 	docker-compose down
 	docker-compose up -d --build
+	docker-compose exec node npm config set maxsockets 2
+	docker-compose exec node npm config set audit false
+	docker-compose exec node npm config set fund false
 	@if [ ! -d "./laravel/vendor" ]; then \
 	echo "Ожидание установки пакетов composer..."; \
 	docker-compose exec -it --user www php-fpm composer install; \
 	fi
-	@if [ ! -d "./laravel/node_modules" ]; then \
+	if ! docker-compose exec node test -d /var/www/app/node_modules/.bin; then \
 	echo "Ожидание установки пакетов npm node_modules..."; \
+	docker-compose exec -u root node chown -R www:www /var/www/app/node_modules; \
 	docker-compose exec -it --user www node npm install; \
 	fi
+	docker exec -d node npm run server
 	docker-compose exec -d --user www node npm run dev
 	@echo "Ожидание запуска контейнеров..."
 	@sleep 3
@@ -70,13 +75,35 @@ clear:
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
 	
+
 sanctum:
 	docker-compose exec php-fpm php artisan install:api
 	docker-compose exec php-fpm php artisan config:publish cors
+
+
+redis:
+	docker-compose exec php-fpm composer require predis/predis
 
 grafika:
 	docker-compose exec node npm install vue @vitejs/plugin-vue
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
 	npm install axios --save-dev
 	npm install socket.io-client --save-dev
+
+	
+chat:
+	docker-compose exec node npm install cors
+	docker-compose exec node npm install cors --loglevel verbose
+	docker-compose exec node npm install express --maxsockets=1 --no-audit --no-fund --loglevel verbose
+	docker-compose exec node npm install ioredis
+	docker-compose exec node npm install nodemon --maxsockets=1 --no-audit --no-fund --loglevel verbose
+	docker-compose exec node npm install socket.io --maxsockets=1 --no-audit --no-fund 
+	docker-compose exec node npm install socket.io-client --maxsockets=1 --no-audit --no-fund --loglevel verbose
+
+restart:
+	docker-compose down
+	docker-compose up -d
+
+composer_install:
+	docker-compose exec php-fpm composer install	
 
