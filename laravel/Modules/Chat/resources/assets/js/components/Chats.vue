@@ -4,6 +4,7 @@
       <li class="contact-item">
 
         <a href="javascript:void(0)" class="contact-link">
+		<!-- Лево: Аватар -->
           <div class="avatar-wrapper">
             <div class="avatar-circle">БХ</div>
           </div>
@@ -17,11 +18,11 @@
             </div>
 			
 			
-              
+               <!-- В сети-->
                 <span class="status-online">в сети</span>
               
 			 
-			  
+			   <!-- Нижняя строка: Статус/Текст + Счетчики -->
 			   <div class="contact-row text-block">
 			   
 				    <p class="last-msg-text">
@@ -36,41 +37,7 @@
 		</a>
       </li>
 
-  <li class="contact-item">
-
-        <a href="javascript:void(0)" class="contact-link">
-          <div class="avatar-wrapper">
-            <div class="avatar-circle">БХ</div>
-          </div>
-
-          <div class="contact-content">
-
-            <!-- Верхняя строка: Имя + Дата -->
-            <div class="contact-row">
-              <span class="contact-name">Alex</span>
-              <span class="contact-date">14:20</span>
-            </div>
-			
-			
-              
-                <span class="status-online">в сети</span>
-              
-			 
-			  
-			   <div class="contact-row text-block">
-			   
-				    <p class="last-msg-text">
-                  ffuhuih
-                </p>
-                 
-                <span class="unread-count">40</span>
-				
-              </div>
-			 
-			<div class="border"></div>
-          </div>
-		</a>
-      </li>
+  
        
 
       <!-- Лоадер -->
