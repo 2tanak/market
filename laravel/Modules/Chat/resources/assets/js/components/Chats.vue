@@ -52,16 +52,16 @@
 
 
 <script>
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
-//import useUserStore from '@chat/stores/userStore';
+import useUserStore from '@chat/stores/userStore';
 //import { getSocket } from '@socket/socketService';
 //import useOnlineStore from '@chat/stores/onlineStore.js';
 //import { handleActivity } from '@chat/utils/chat.js';
 
 export default {
   setup() {
-    //const userStore = useUserStore();
+    const userStore = useUserStore();
     //const isOnlineStore = useOnlineStore();
     //return { userStore,isOnlineStore };
   },

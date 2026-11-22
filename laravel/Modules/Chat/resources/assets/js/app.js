@@ -3,8 +3,8 @@ import { createApp } from 'vue';
 //import ChatComponent from '@chat/components/Chat.vue';
 import ChatsComponent from '@chat/components/Chats.vue';
 //import { createRouter, createWebHistory,createMemoryHistory } from 'vue-router';
-//import { createPinia } from 'pinia';
-//const pinia = createPinia();
+import { createPinia } from 'pinia';
+const pinia = createPinia();
 const app = createApp({});
 
 app.component("chats", ChatsComponent);
@@ -25,6 +25,6 @@ const router = createRouter({
 });
 ----*/
 //app.use(router);
-//app.use(pinia);
+app.use(pinia);
 
 app.mount('#app');
