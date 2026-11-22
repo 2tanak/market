@@ -17,7 +17,7 @@ class Model extends Authenticatable implements UniversalModelInterface
     use HasApiTokens, UniversalLogic, FilterModel,HasFactory, Notifiable;
     
     protected $table = 'users';
-	protected $appends = ['input_name','input_title'];
+	//protected $appends = ['input_name','input_title'];
 	
     protected function filterClass() {
        return Filter::class;
