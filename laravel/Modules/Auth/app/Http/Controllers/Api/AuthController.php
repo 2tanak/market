@@ -60,6 +60,7 @@ class AuthController extends Controller
 		 
 		   try {
 			if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+				$request->session()->regenerate();
 				$user = $request->user();
 				$token = $user->createToken($request->device_name)->plainTextToken;
 				return response()->json([
