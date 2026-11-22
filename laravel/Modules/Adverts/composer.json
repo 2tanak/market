@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/adverts",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Adverts\\": "app/",
+            "Modules\\Adverts\\Database\\Factories\\": "database/factories/",
+            "Modules\\Adverts\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Adverts\\Tests\\": "tests/"
+        }
+    }
+}

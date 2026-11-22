@@ -3,5 +3,6 @@
     "Auth": true,
     "Entity": true,
     "Blog": true,
-    "Chat": true
+    "Chat": true,
+    "Adverts": true
 }

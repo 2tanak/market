@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Auth\database\seeders\AuthDatabaseSeeder;
+use Modules\Adverts\database\seeders\AdvertsDatabaseSeeder;
 use Modules\Blog\database\seeders\BlogDatabaseSeeder;
+use Modules\Chat\database\seeders\ChatDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AuthDatabaseSeeder::class,
 			BlogDatabaseSeeder::class,
+			AdvertsDatabaseSeeder::class,
+			ChatDatabaseSeeder::class,
         ]);
     }
 }

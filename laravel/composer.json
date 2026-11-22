@@ -33,7 +33,8 @@
 			"Modules\\Auth\\": "Modules/Auth/app/",
 			"Modules\\Entity\\": "Modules/Entity/app/",
 			"Modules\\Blog\\": "Modules/Blog/app/",
-			"Modules\\Chat\\": "Modules/Chat/app/"
+			"Modules\\Chat\\": "Modules/Chat/app/",
+			"Modules\\Adverts\\": "Modules/Adverts/app/"
         }
     },
     "autoload-dev": {
