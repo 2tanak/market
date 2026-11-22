@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Chat\Http\Controllers\ChatController;
-use Modules\Chat\Http\Controllers\UsersController;
+use Modules\Chat\Http\Controllers\Api\UsersController as Users;
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-	Route::get('chat/{user?}', [UsersController::class, 'chat'])->name('chat');
-    Route::apiResource('chats', ChatController::class)->names('chat');
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('users', [Users::class, 'index'])->name('users');
 });
+
