@@ -3,6 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/test', function (Request $request) {
+    return response()->json(['ok' => 'успешно зашли на защищеный роут']);
 })->middleware('auth:sanctum');

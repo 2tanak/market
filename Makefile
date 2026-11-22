@@ -76,13 +76,12 @@ clear:
 	docker-compose exec php-fpm php artisan config:clear
 	docker compose exec php-fpm composer dump-autoload
 	
-
-
 sanctum:
 	docker-compose exec php-fpm php artisan install:api
 	docker-compose exec php-fpm php artisan config:publish cors
 
-
+redis:
+	docker-compose exec php-fpm composer require predis/predis
 grafika:
 	docker-compose exec node npm install vue @vitejs/plugin-vue
 	docker-compose exec node npm install @vitejs/plugin-vue --save-dev
@@ -104,6 +103,4 @@ restart:
 	docker-compose up -d
 
 composer_install:
-	docker-compose exec php-fpm composer install	
-
-
+	docker-compose exec php-fpm composer install
