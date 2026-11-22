@@ -1,0 +1,48 @@
+/* Контейнер навигации */
+.breadcrumbs {
+  padding: 15px 0;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+/* Список элементов */
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap; /* Чтобы на мобильных крошки переносились, если не влезают */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Каждый пункт списка */
+.breadcrumbs__item {
+  display: flex;
+  align-items: center;
+}
+
+/* Автоматический разделитель между элементами (кроме последнего) */
+.breadcrumbs__item:not(:last-child)::after {
+  content: "/";
+  margin: 0 10px; /* Отступы вокруг слэша */
+  color: #999;
+  font-weight: 300;
+}
+
+/* Ссылки (прошлые шаги) */
+.breadcrumbs__link {
+  color: #0066cc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs__link:hover {
+  color: #004499;
+  text-decoration: underline;
+}
+
+/* Текущая (активная) страница */
+.breadcrumbs__current {
+  color: #555;
+  font-weight: 500;
+  pointer-events: none; /* Запрет взаимодействия */
+}

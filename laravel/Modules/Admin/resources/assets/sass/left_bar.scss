@@ -1,0 +1,90 @@
+/* 3. ВЫДВИЖНОЙ LEFT BAR */
+/* 4. МАГИЯ CSS: АНИМАЦИЯ ПРИ КЛИКЕ */
+/* Когда чекбокс активен, выдвигаем панель */
+.burger-checkbox:checked ~ .content .left-bar {
+  /*left: 0;*/
+  opacity:0;
+  position:fixed;
+  z-index:-20;
+}
+
+.left-bar {
+  width: 250px;
+  background-color: #f8f9fa;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: left 0.3s ease; /* Плавное выдвижение */
+  padding: 20px;
+  background:#fff;
+  border:#dee2e6;
+  
+}
+
+/* Стили для меню внутри панели */
+.left-bar ul {
+  list-style: none;
+}
+.left-bar li {
+  margin-bottom: 15px;
+}
+.left-bar a {
+  text-decoration: none;
+  color: #333;
+  font-family: sans-serif;
+}
+/* Общие стили для меню */
+.menu {
+  font-family: sans-serif;
+}
+
+.menu-item {
+  margin-bottom: 10px;
+}
+
+/* Скрываем стандартные радиокнопки */
+.menu-radio {
+  display: none;
+}
+
+/* Стили родительских пунктов */
+.menu-link {
+  display: block;
+  padding: 10px;
+  background-color: #e9ecef;
+  color: #333;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.menu-link:hover {
+  background-color: #dee2e6;
+}
+
+/* 1. СКРЫВАЕМ ПОДМЕНЮ ПО УМОЛЧАНИЮ */
+.submenu {
+  max-height: 0;        /* Высота 0, чтобы скрыть */
+  overflow: hidden;     /* Прячем вылезающий текст */
+  transition: max-height 0.3s ease-out; /* Плавное открытие */
+  background-color: #ffffff;
+  padding-left: 15px;   /* Отступ для дочерних элементов */
+}
+
+/* Стили для ссылок внутри подменю */
+.submenu a {
+  display: block;
+  padding: 8px 0;
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.submenu a:hover {
+  color: #007bff;
+}
+
+/* 2. МАГИЯ CSS: ОТКРЫТИЕ ПРИ АКТИВАЦИИ РАДИОКНОПКИ */
+/* Когда радиокнопка нажата, находим следующее за ней подменю и открываем его */
+.menu-radio:checked ~ .submenu {
+  min-height: 100px;    /* Задаем достаточную высоту для отображения */
+}

@@ -1,0 +1,12 @@
+.burger-checkbox:checked ~ .content .right-bar {
+  width:100%;
+  z-index:20;
+}
+
+
+.right-bar{
+	
+	width: calc(100% - 250px);
+	height:500px;
+	background:#fff;
+}
