@@ -12,6 +12,7 @@ export default defineStore('user', {
     loading: false,
     currentPage: 1,
     hasMore: false,
+	token: null
   }),
   actions: {
     setToken(token) {

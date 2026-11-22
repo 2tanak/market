@@ -34,6 +34,8 @@
 	
 <script>
      window.apiToken = "{{ $token }}";
+	 window.authUser = "{{ json_encode(auth()->user()) }}";
+	 
 </script>	
 </body>
 </html>

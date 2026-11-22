@@ -22,7 +22,7 @@ class UsersController extends Controller
  public function index(Request $request)
 {
 	
-	dd(5);
+	
 $myId = auth()->id();
 //$myId = 1;
 $page = $request->page;

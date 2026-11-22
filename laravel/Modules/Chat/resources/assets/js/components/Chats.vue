@@ -122,11 +122,12 @@ export default {
   mounted() {
 
     const token = window.apiToken;
-    //this.userStore.setToken(token);
+    this.userStore.setToken(token);
     if (this.user) {
+	alert(5);
       this.userStore.setUser(this.user);
     }
-    //this.userStore.fetchUsers(this.page);
+    this.userStore.fetchUsers(this.page);
     //this.socket = getSocket();
 
   }
