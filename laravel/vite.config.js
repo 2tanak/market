@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -31,7 +32,13 @@ export default defineConfig(({ mode }) => {
         }),
         tailwindcss(),
     ],
-	
+	 resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
+		     '@base_resources': path.resolve(__dirname, 'resources/js'),
+		     '@modules': path.resolve(__dirname, 'Modules'),
+        },
+    },
  }
 	
 });	
