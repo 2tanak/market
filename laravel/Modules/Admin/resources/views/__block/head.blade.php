@@ -10,6 +10,12 @@
    <meta name="description" content="{{ $description ?? '' }}">
    <meta name="keywords" content="{{ $keywords ?? '' }}">
    <meta name="author" content="{{ $author ?? '' }}">
+   @auth
+      <script>
+         window.apiToken = @json(session('api_token'));
+         window.authUser = @json(auth()->user());
+      </script>
+   @endauth
    @vite(['Modules/Admin/resources/assets/sass/admin.scss'])
    @section('css_block')
    @show

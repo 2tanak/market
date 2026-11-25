@@ -12,22 +12,16 @@ export default defineStore('user', {
     loading: false,
     currentPage: 1,
     hasMore: false,
-	token: null
   }),
   actions: {
-    setToken(token) {
-      this.token = token;
-    },
     async fetchUsers(page = 1) {
       this.loading = true;
       try {
-        // Запрос улетит со свежим токеном, который мы сохранили в стейте
-        const response = await axios.get(`/api/users`, {
+        const response = await axios.get('/api/users', {
           params: { page: page },
           headers: {
-            'Authorization': `Bearer ${this.token}`, // Достаем токен из текущего стейта стора
-            'Accept': 'application/json'
-          }
+            'Accept': 'application/json',
+          },
         });
 
         if (response.data && response.data.success !== false) {

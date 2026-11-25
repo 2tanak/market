@@ -12,6 +12,10 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+if (window.apiToken) {
+    window.axios.defaults.headers.common['Authorization'] = `Bearer ${window.apiToken}`;
+}
+
 // Обработка ошибок авторизации (401 - сессия кончилась, 419 - токен CSRF устарел)
 
 window.axios.interceptors.response.use(

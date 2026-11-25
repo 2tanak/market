@@ -63,7 +63,7 @@ import useUserStore from '@chat/stores/userStore';
 // import { handleActivity } from '@chat/utils/chat.js';
 
 export default {
-  props: ['user', 'token', 'authUser'],
+  props: ['user'],
 
   setup() {
     const userStore = useUserStore();
@@ -91,9 +91,6 @@ export default {
   },
 
   mounted() {
-    const token = this.token || window.apiToken;
-    this.userStore.setToken(token);
-
     if (this.user?.id) {
       this.userStore.setUser(this.user);
     }
