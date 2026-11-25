@@ -15,17 +15,17 @@ class UsersController extends Controller
 {
 	
 	
-public function chat(Users $user,Request $request){
+    public function chat(Request $request, ?Users $user = null)
+    {
+        $authUser = auth()->user();
+        $token = $this->verify_token($authUser);
 
-$authUser = auth()->user();
-$token = $this->verify_token($authUser);
-	
-return view('chat::chat',[
-  'user' =>$user,
-  'auth' => $authUser,
-  'token' => $token,
-]);
-}	
+        return view('chat::chat', [
+            'user' => $user,
+            'auth' => $authUser,
+            'token' => $token,
+        ]);
+    }
 	
 public function verify_token($authUser){
 	//единство токена

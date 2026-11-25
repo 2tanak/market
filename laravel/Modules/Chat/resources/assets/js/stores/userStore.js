@@ -48,13 +48,11 @@ export default defineStore('user', {
       } finally {
 
         this.loading = false;
-        if (this.users.length > 0) {
+        if (this.users.length > 0 && this.user_partner?.id) {
           const indexUser = this.users.findIndex(u => u.id === this.user_partner.id);
           if (indexUser !== -1) {
             this.user_partner = this.users[indexUser];
-            
           }
-
         }
 
       }

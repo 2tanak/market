@@ -5,39 +5,25 @@ namespace Modules\Chat\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Chat\Model\Chats\Model as Chat;
+use Modules\Chat\Model\Messages\Model as Message;
 use Modules\Chat\Resources\UserResource;
 
 class UsersController extends Controller
 {
     public function index(Request $request)
     {
-        $myId = auth()->id();
-        // $myId = 1;
-        $page = $request->page;
-        // $page = 1;
+        $myId = (int) auth()->id();
+        $page = $request->integer('page', 1);
 
         $chats = Chat::with([
             'buyer',
             'seller',
-            'messages' => function ($query) {
-                $query->latest('id'); // Превью последнего сообщения
-            },
-        ])->paginate(20);
-
-        return response()->json(['data' => $chats]);
-
-        $chats = Chat::with([
-            'buyer',
-            'seller',
-            'messages' => function ($query) {
-                $query->latest('id'); // Превью последнего сообщения
-            },
+            'lastMessage',
         ])
             ->where(function ($query) use ($myId) {
                 $query->where('buyer_id', $myId)
                     ->orWhere('seller_id', $myId);
             })
-            // 1. СОЗДАЕМ КОЛОНКУ ТУТ (через чистый SQL подзапрос)
             ->selectRaw(
                 'chats.*,
                 (
@@ -58,53 +44,46 @@ class UsersController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(20);
 
-        // 2. Трансформируем (маппим) данные в плоскую структуру под твой старый Redux
         $usersCollection = collect($chats->items())->map(function ($chat) use ($myId) {
-            // Определяем, кто твой собеседник в этой комнате
-            $partner = $chat->buyer_id === $myId ? $chat->seller : $chat->buyer;
+            $rawPartner = (int) $chat->buyer_id === $myId ? $chat->seller : $chat->buyer;
 
-            // Если собеседника почему-то нет в БД, пропускаем (защита от битых данных)
-            if (!$partner) {
+            if (!$rawPartner) {
                 return null;
             }
 
-            // Вытаскиваем последнее сообщение, подгруженное через Eloquent связь
-            $lastMessage = $chat->messages->first();
+            $partner = clone $rawPartner;
+            $lastMessage = $chat->lastMessage;
 
-            // product_id
-            $partner->product_id = $chat->product_id;
-            // unread_count
-            $partner->unread_count_custom = $chat->unread_count;
-            // chat_id
+            $partner->listing_id = $chat->listing_id;
+            $partner->unread_count_custom = (int) $chat->unread_count;
             $partner->current_chat_id = $chat->id;
-            // last_message_id
-            $partner->last_message_id = $lastMessage ? $lastMessage->id : null;
-            // last_message_text
-            $partner->last_message_text = $lastMessage ? $lastMessage->text : null;
-            // last_message_status
-            $partner->last_message_status = $lastMessage ? $lastMessage->status : null;
-            // last_message_created_at
-            $partner->last_message_text_at = $lastMessage ? $lastMessage->created_at->toDateTimeString() : null;
+            $partner->last_message_id = $lastMessage?->id;
+            $partner->last_message_text = $lastMessage?->text;
+            $partner->last_message_status = $lastMessage?->status;
+            $partner->last_message_text_at = $lastMessage?->created_at?->toDateTimeString();
 
             return $partner;
-        })->filter();
+        })->filter()->values();
 
         return response()->json([
             'data' => UserResource::collection($usersCollection),
             'pagination' => [
                 'current_page' => $chats->currentPage(),
                 'has_more' => $chats->hasMorePages(),
-                'page' => (int) $page,
+                'page' => $page,
             ],
         ]);
     }
 
     public function totalUnread()
     {
-        $myId = auth()->id();
+        $myId = (int) auth()->id();
 
-        // Считаем все сообщения, где получатель Я и статус 2 (не прочитано)
-        $count = Model::where('receiver_id', $myId)
+        $count = Message::whereHas('chat', function ($query) use ($myId) {
+            $query->where('buyer_id', $myId)
+                ->orWhere('seller_id', $myId);
+        })
+            ->where('sender_id', '!=', $myId)
             ->where('status', 2)
             ->count();
 
@@ -113,4 +92,3 @@ class UsersController extends Controller
         ]);
     }
 }
-

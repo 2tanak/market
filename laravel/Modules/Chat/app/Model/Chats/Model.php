@@ -14,14 +14,11 @@ class Model extends ModelParent
     use Presenter;
 
     protected $table = 'chats';
-    // protected $with = ['files'];
-    protected $fillable = ['product_id', 'buyer_id', 'seller_id', 'created_at', 'updated_at'];
-    // protected $filter_class = Filter::class;
+    protected $fillable = ['listing_id', 'buyer_id', 'seller_id', 'created_at', 'updated_at'];
 
-    // Связь с товаром
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'listing_id');
     }
 
     public function buyer()
@@ -29,16 +26,19 @@ class Model extends ModelParent
         return $this->belongsTo(User::class, 'buyer_id');
     }
 
-    // Связь с продавцом (владелец товара)
     public function seller()
     {
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-    // Связь «Один ко многим» со всеми сообщениями в этой комнате
     public function messages()
     {
         return $this->hasMany(Message::class, 'chat_id');
+    }
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class, 'chat_id')->latestOfMany('id');
     }
 
     public function files()
