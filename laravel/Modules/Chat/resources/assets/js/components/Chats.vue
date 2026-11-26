@@ -25,7 +25,7 @@
 			   <div class="contact-row text-block">
 			   
 				    <p class="last-msg-text">
-                  ffth7u7u7u7u7
+                  Очень длинный текст последнего сообщения в чате, который должен аккуратно скрываться троеточием
                 </p>
                  
                 <span class="unread-count">40</span>
