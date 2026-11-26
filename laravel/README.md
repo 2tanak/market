@@ -11,3 +11,4 @@ protected static function newFactory(): UserFactory
     {
         return new UserFactory();
     } 
+	

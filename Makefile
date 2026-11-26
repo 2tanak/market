@@ -102,4 +102,4 @@ sanctum:
 	docker-compose exec php-fpm php artisan config:publish cors
 
 composer_install:
-	docker-compose exec php-fpm composer install	
+	docker-compose exec php-fpm composer install

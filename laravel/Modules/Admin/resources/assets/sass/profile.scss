@@ -1,0 +1,64 @@
+/* Стили шапки */
+
+
+/* Контейнер для кнопки и меню */
+.profile-menu {
+  position: relative; /* База для позиционирования окна */
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  
+ 
+  
+}
+
+/* Скрытое по умолчанию всплывающее окно */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px); /* Появляется ровно снизу шапки + отступ 10px */
+  right: 0; /* Выравнивание по правому краю кнопки */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 150px;
+  z-index: 100;
+  
+  /* Эффект скрытия/появления */
+  display: none; 
+}
+
+/* Класс, который будет добавляться через JS */
+.dropdown-menu.active {
+  display: block;
+}
+
+/* Стили элементов внутри меню */
+.dropdown-item {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 0;
+}
+
+.logout-btn {
+  color: #e74c3c;
+  font-weight: bold;
+}
+

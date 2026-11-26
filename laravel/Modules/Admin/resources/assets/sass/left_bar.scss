@@ -1,11 +1,15 @@
 /* 3. ВЫДВИЖНОЙ LEFT BAR */
 /* 4. МАГИЯ CSS: АНИМАЦИЯ ПРИ КЛИКЕ */
 /* Когда чекбокс активен, выдвигаем панель */
-.burger-checkbox:checked ~ .content .left-bar {
+.burger-checkbox:checked ~ .main-content .left-bar {
   /*left: 0;*/
   opacity:0;
   position:fixed;
   z-index:-20;
+  width: 0px;
+}
+.burger-checkbox:checked ~ .main-content{
+  display:block;
 }
 
 .left-bar {
@@ -16,6 +20,7 @@
   padding: 20px;
   background:#fff;
   border:#dee2e6;
+  align-self:stretch;
   
 }
 
@@ -63,9 +68,9 @@
 
 /* 1. СКРЫВАЕМ ПОДМЕНЮ ПО УМОЛЧАНИЮ */
 .submenu {
-  max-height: 0;        /* Высота 0, чтобы скрыть */
+  height: 0;        /* Высота 0, чтобы скрыть */
   overflow: hidden;     /* Прячем вылезающий текст */
-  transition: max-height 0.3s ease-out; /* Плавное открытие */
+  transition: height 0.3s ease-out; /* Плавное открытие */
   background-color: #ffffff;
   padding-left: 15px;   /* Отступ для дочерних элементов */
 }
@@ -83,8 +88,10 @@
   color: #007bff;
 }
 
-/* 2. МАГИЯ CSS: ОТКРЫТИЕ ПРИ АКТИВАЦИИ РАДИОКНОПКИ */
-/* Когда радиокнопка нажата, находим следующее за ней подменю и открываем его */
+
 .menu-radio:checked ~ .submenu {
-  min-height: 100px;    /* Задаем достаточную высоту для отображения */
+  height: auto;    
+}
+a.active{
+ color: #007bff;
 }

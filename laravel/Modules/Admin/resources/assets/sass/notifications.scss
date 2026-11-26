@@ -1,0 +1,109 @@
+.alert-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Стили конкретно под ошибку */
+.alert-box.error {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alert-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #ef4444;
+}
+
+.alert-message {
+    font-weight: 500;
+}
+
+.alert-close {
+    background: none;
+    border: none;
+    color: #b91c1c;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* Плавное появление */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Общие стили .alert-box, .alert-content, .alert-close оставляем из прошлого шага */
+
+/* Стили конкретно под успех (зеленый) */
+.alert-box.success {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.alert-box.success .alert-icon {
+    color: #22c55e;
+}
+
+.alert-box.success .alert-close {
+    color: #15803d;
+}
+/* Общие стили .alert-box, .alert-content, .alert-close берем из прошлых шагов */
+
+.alert-box.error-list {
+    background-color: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    align-items: flex-start; /* Чтобы крестик оставался сверху, если список длинный */
+}
+
+.alert-messages-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.alert-title {
+    font-weight: 600;
+}
+
+.errors-ul {
+    margin: 0;
+    padding-left: 20px; /* Отступ для маркеров списка */
+    list-style-type: disc;
+}
+
+.errors-ul li {
+    margin-top: 2px;
+}
