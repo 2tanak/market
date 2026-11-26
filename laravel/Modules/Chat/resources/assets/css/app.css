@@ -1,0 +1,296 @@
+.left-bar {
+  width: 350px;
+  display:flex;
+  justify-content:center;
+}
+
+.scroll-area {
+  /* Фиксируем высоту. Если не сработает 80vh, поставь 400px для теста */
+  height: 70vh;
+  overflow-y: auto !important;
+  /* Принудительно включаем скролл */
+  display: block;
+  width:100%;
+}
+
+/* Стилизация полосы прокрутки, чтобы её было видно */
+.scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background-color: #444;
+  /* Темный цвет, чтобы заметить */
+  border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Твои старые стили .scroll-area ... */
+
+.loader-item {
+
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #666;
+  font-size: 12px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  /* Цвет спиннера */
+  border-bottom: 2px solid #3498db;
+  /* Цвет спиннера */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* Зеленая точка на аватаре */
+.online-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background-color: #25D366;
+  /* WhatsApp зеленый */
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+.contact-link {
+  display: flex !important;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 12px;
+  text-decoration: none;
+}
+.contact-link {
+  display: flex;
+  padding: 10px 12px;
+  text-decoration: none;
+  align-items: center;
+  gap: 12px;
+}
+/* Контент справа от аватара */
+.contact-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* Чтобы длинный текст не распирал */
+}
+
+
+
+
+li.contact-item {
+  list-style: none;
+  background: #fff;
+  flex-basis: 100%;
+  margin-bottom:20px;
+}
+li.contact-item:hover {
+  background-color: #f4f4f5;
+}
+.contact-item{
+	border:1px solid red;
+	
+}
+div.contact-content {
+	/* имя ,дата , в сети*/
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  
+}
+.contact-row {
+	/* имя и дата ьекст */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.avatar-wrapper {
+  width: 45px;
+  height: 45px;
+  background: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-name {
+  font-weight: 500;
+  color: #111b21;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+.contact-name {
+  font-weight: 600;
+  color: #000;
+  font-size: 15px;
+}
+
+.contact-time {
+  font-size: 11px;
+  color: #8696a0;
+}
+.avatar-circle {
+  width: 48px;
+  height: 48px;
+  background: #517da2;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.contact-date {
+  font-size: 12px;
+  color: #8e8e93;
+}
+.status-online {
+  font-size: 12px;
+  color: #0088cc;
+  margin-bottom: 10px;
+}
+
+.text-block {
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  min-width: 0;
+}
+
+/* Статус "в сети" над текстом сообщения */
+
+.last-msg-text {
+  margin: 0;
+  font-size: 14px;
+  color: #8e8e93;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unread-count {
+  background: #4ca5ff;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 12px;
+  min-width: 18px;
+  text-align: center;
+}
+/* -------------------------------------------- */
+.last-msg {
+  font-size: 13px;
+  color: #667781;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  /* Раскидывает имя и дату по краям */
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+
+/* Футер: Текст сообщения + Статус */
+.contact-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+
+
+
+
+/* Центральная часть с именем и текстом */
+.contact-main-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  /* Чтобы текст обрезался, а не толкал правую колонку */
+}
+
+
+/* Правая колонка: дата сверху, статус снизу */
+.contact-right-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /* Прижимаем всё вправо */
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 4px;
+  /* Расстояние между датой и статусом */
+}
+
+
+.status-text {
+  font-size: 11px;
+  color: #25D366;
+  /* Тот самый зеленый */
+  font-weight: 500;
+}
+
+/* Аватар (без изменений) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
+import vue from '@vitejs/plugin-vue';
 import path from 'path';
 
 export default defineConfig(({ mode }) => {
@@ -30,6 +31,14 @@ export default defineConfig(({ mode }) => {
                 }),
             ],
         }),
+		vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
         tailwindcss(),
     ],
 	 resolve: {
@@ -37,6 +46,7 @@ export default defineConfig(({ mode }) => {
             vue: 'vue/dist/vue.esm-bundler.js',
 		     '@base_resources': path.resolve(__dirname, 'resources/js'),
 		     '@modules': path.resolve(__dirname, 'Modules'),
+			 '@chat': path.resolve(__dirname, 'Modules/Chat/resources/assets/js'),
         },
     },
  }

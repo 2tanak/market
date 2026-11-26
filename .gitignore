@@ -5,3 +5,4 @@
 /laravel/public/css/*
 /laravel/public/css
 /laravel/node_modules
+.env

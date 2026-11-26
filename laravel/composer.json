@@ -9,6 +9,7 @@
         "php": "^8.3",
         "intervention/image-laravel": "^4.1",
         "laravel/framework": "^13.8",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
         "nwidart/laravel-modules": "^13.0",
         "predis/predis": "^3.7"
@@ -31,7 +32,9 @@
 			"Modules\\Admin\\": "Modules/Admin/app/",
 			"Modules\\Auth\\": "Modules/Auth/app/",
 			"Modules\\Entity\\": "Modules/Entity/app/",
-			"Modules\\Blog\\": "Modules/Blog/app/"
+			"Modules\\Blog\\": "Modules/Blog/app/",
+			"Modules\\Chat\\": "Modules/Chat/app/",
+			"Modules\\Adverts\\": "Modules/Adverts/app/"
         }
     },
     "autoload-dev": {

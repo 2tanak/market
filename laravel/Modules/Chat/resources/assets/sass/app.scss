@@ -1,0 +1,103 @@
+@import './users.scss';
+
+/* Контейнер на весь экран только для страницы чата */
+.container {
+  max-width: 100%;
+}
+
+.header.container {
+  padding-right: 20px;
+}
+
+.content {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* Адаптивность для смартфонов и планшетов */
+@media (max-width: 768px) {
+  .burger-btn {
+    margin-left: 15px;
+  }
+
+  .header.container {
+    padding-right: 15px;
+  }
+
+  .main-content,
+  .burger-checkbox:checked ~ .main-content {
+    display: flex;
+    position: relative;
+    width: 100%;
+    grid-gap: 0;
+    gap: 0;
+  }
+
+  .content {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  /* По умолчанию на смартфонах боковая панель свернута */
+  .main-content .left-bar {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 350px;
+    height: calc(100vh - 40px);
+    height: calc(100dvh - 40px);
+    padding-top: 10px;
+    background: #fff;
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+    .scroll-area {
+      height: 100%;
+    }
+  }
+
+  /* При клике на бургер открываем боковую панель */
+  .burger-checkbox:checked ~ .main-content .left-bar {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 350px;
+    z-index: 90;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Анимация кнопки бургера в крестик, когда открыта панель на мобильных */
+  .burger-checkbox:checked + .main-header .burger-btn span {
+    transform: scale(0);
+  }
+
+  .burger-checkbox:checked + .main-header .burger-btn::before {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .burger-checkbox:checked + .main-header .burger-btn::after {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content .left-bar,
+  .burger-checkbox:checked ~ .main-content .left-bar {
+    max-width: 100%;
+  }
+}
