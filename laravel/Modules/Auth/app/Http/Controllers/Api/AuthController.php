@@ -16,6 +16,7 @@ use Mail;
 
 use App\Mail\User\PasswordMail;
 use Modules\Auth\Model\Users\Model as User;
+use Modules\Auth\Services\TokenService;
 
 
 class AuthController extends Controller
@@ -42,7 +43,7 @@ class AuthController extends Controller
      * Show the form for creating a new resource.
      */
 	 
-	  public function login(AuthRequest $request)
+	  public function login(AuthRequest $request, TokenService $tokenService)
         {
 			
 			$data = $request->validated();
@@ -62,7 +63,8 @@ class AuthController extends Controller
 			if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 				$request->session()->regenerate();
 				$user = $request->user();
-				$token = $user->createToken($request->device_name)->plainTextToken;
+				$token = $tokenService->verify_token($user, $request->device_name ?? 'web-access');
+				session(['api_token' => $token]);
 				return response()->json([
 			    'user'  => $user,
 				'token' => $token
