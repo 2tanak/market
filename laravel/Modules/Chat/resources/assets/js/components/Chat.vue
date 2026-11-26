@@ -4,8 +4,8 @@
     <header class="chat-header">
       <div v-if="user?.name" class="avatar"></div>
       <div class="user-info">
-        <span class="user-name">{{ user?.name || '' }} (ID: {{ user?.id }})</span>
-        <span class="user-status">{{ socketConnected ? 'Сокет подключен' : 'Сокет не подключен' }}</span>
+        <span class="user-name">{{ user?.name }}</span>
+        <span class="user-status">{{ socketConnected ? 'в сети' : 'был(а) недавно' }}</span>
       </div>
     </header>
 
@@ -19,7 +19,11 @@
         <div
           v-for="msg in messages"
           :key="msg.uuid"
-          :class="['msg-row', msg.sender_id == authUser?.id ? 'is-me' : 'is-them']"
+          :class="[
+            'msg-row',
+            msg.sender_id == authUser?.id ? 'is-me' : 'is-them',
+            { 'msg-appear': msg.isNew }
+          ]"
         >
           <div class="msg-bubble">
             <div class="msg-text">{{ msg.text }}</div>
@@ -55,8 +59,19 @@
           placeholder="Введите сообщение для Юлии..."
           class="chat-textarea"
         ></textarea>
-        <button type="button" @click="send" class="send-btn">
-          Отправить
+        <button
+          type="button"
+          @click="send"
+          :disabled="isSending || !text.trim()"
+          :class="['send-btn', { 'is-sending': isSending, 'is-ready': !!text.trim() }]"
+          aria-label="Отправить сообщение"
+        >
+          <span class="send-icon-wrap">
+            <svg class="send-svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path>
+            </svg>
+            <span class="send-spinner"></span>
+          </span>
         </button>
       </div>
     </footer>
@@ -102,12 +117,28 @@ const messages = ref([
 ]);
 
 const text = ref('');
+const isSending = ref(false);
 const socket = ref(null);
 const socketConnected = ref(false);
 const loading = ref(false);
 const loadPartition = ref(false);
 const messagesArea = ref(null);
 const textBox = ref(null);
+
+const MIN_SEND_ANIM_MS = 400;
+let pendingUuid = null;
+let sendStartedAt = 0;
+let unlockTimer = null;
+
+const finishSending = () => {
+  const elapsed = Date.now() - sendStartedAt;
+  const remaining = Math.max(0, MIN_SEND_ANIM_MS - elapsed);
+  clearTimeout(unlockTimer);
+  unlockTimer = setTimeout(() => {
+    isSending.value = false;
+    pendingUuid = null;
+  }, remaining);
+};
 
 const formatTime = (dateStr) => {
   if (!dateStr) return '';
@@ -124,11 +155,16 @@ const handleNewMessage = (incomingMsg) => {
   console.log('Получено сообщение из server.js:', incomingMsg);
   const exists = messages.value.some((m) => m.uuid === incomingMsg.uuid);
   if (!exists) {
-    messages.value.unshift(incomingMsg);
+    messages.value.unshift({ ...incomingMsg, isNew: true });
+  }
+  if (pendingUuid && incomingMsg.uuid === pendingUuid) {
+    finishSending();
   }
 };
 
 const send = () => {
+  if (isSending.value) return;
+
   const trimmed = text.value.trim();
   if (!trimmed) return;
 
@@ -137,8 +173,14 @@ const send = () => {
     return;
   }
 
+  isSending.value = true;
+  sendStartedAt = Date.now();
+
+  const uuid = uuidv4();
+  pendingUuid = uuid;
+
   const payload = {
-    uuid: uuidv4(),
+    uuid,
     text: trimmed,
     sender_id: authUser.value?.id || 1,
     receiver_id: 2, // отправляем Юлии (id = 2)
@@ -148,6 +190,13 @@ const send = () => {
 
   socket.value.emit('send_message', payload);
   text.value = '';
+
+  // Страховочный разблок, если ответ от сервера задержался
+  clearTimeout(unlockTimer);
+  unlockTimer = setTimeout(() => {
+    isSending.value = false;
+    pendingUuid = null;
+  }, 3000);
 };
 
 onMounted(() => {
@@ -185,6 +234,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  clearTimeout(unlockTimer);
   if (socket.value) {
     socket.value.off('new_message', handleNewMessage);
   }

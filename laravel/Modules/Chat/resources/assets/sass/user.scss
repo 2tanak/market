@@ -128,18 +128,24 @@
 
 .is-me {
   justify-content: flex-end;
-  & .msg-bubble{
-	  background: #d9fdd3;
+
+  & .msg-bubble {
+    background: #d9fdd3;
+    transform-origin: bottom right;
   }
-  
-  
 }
 
 .is-them {
   justify-content: flex-start;
-   & .msg-bubble{
-	   background: #ffffff;
+
+  & .msg-bubble {
+    background: #ffffff;
+    transform-origin: bottom left;
   }
+}
+
+.msg-row.msg-appear .msg-bubble {
+  animation: waBubbleIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 
@@ -183,8 +189,7 @@
 
 
 
-.icon-btn,
-.send-btn {
+.icon-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -193,17 +198,80 @@
 }
 
 .send-btn {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
   background-color: #00a884;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 6px;
-  white-space: nowrap;
-}
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 168, 132, 0.3);
+  transition: background-color 0.2s ease, transform 0.18s ease, opacity 0.2s ease, box-shadow 0.2s ease;
 
-.send-btn:hover {
-  background-color: #008f72;
+  .send-icon-wrap {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .send-svg {
+    margin-left: 2px;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  }
+
+  .send-spinner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #008f72;
+    transform: scale(1.06);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  &:disabled:not(.is-sending) {
+    background-color: #a5b3b0;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &.is-sending {
+    background-color: #008f72;
+    cursor: wait;
+    pointer-events: none;
+    animation: waBtnPulse 0.4s ease;
+
+    .send-svg {
+      animation: waPlaneFly 0.38s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .send-spinner {
+      opacity: 1;
+      transform: scale(1);
+      animation: spin 0.65s linear infinite 0.12s;
+    }
+  }
 }
 
 
@@ -249,5 +317,39 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes waPlaneFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(18px, -10px) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes waBtnPulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.88);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes waBubbleIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
