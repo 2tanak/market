@@ -58,7 +58,7 @@
 
 <script>
 import useUserStore from '@chat/stores/userStore';
-// import { getSocket } from '@socket/socketService';
+import { getSocket } from '@socket/socketService';
 // import useOnlineStore from '@chat/stores/onlineStore.js';
 // import { handleActivity } from '@chat/utils/chat.js';
 
@@ -96,7 +96,7 @@ export default {
     }
 
     this.userStore.fetchUsers(this.page);
-    // this.socket = getSocket();
+    this.socket = getSocket();
   },
 
   methods: {
@@ -140,6 +140,7 @@ export default {
 
     someMethod(contact) {
       // handleActivity(this.socket, this.isOnlineStore);
+	  //console.log(contact);
       this.userStore.setUser(contact);
       // this.$router.push(`/chat/${contact.id}`);
     },

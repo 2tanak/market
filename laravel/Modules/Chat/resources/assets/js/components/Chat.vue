@@ -2,10 +2,12 @@
   <div class="chat-parent" @mousedown="activity">
     <!-- Шапка -->
     <header class="chat-header">
-      <div v-if="user?.name" class="avatar"></div>
+      <div v-if="partnerName" class="avatar"></div>
       <div class="user-info">
-        <span class="user-name">{{ user?.name }}</span>
-        <span class="user-status">{{ socketConnected ? 'в сети' : 'был(а) недавно' }}</span>
+        <span class="user-name">{{ partnerName }}</span>
+        <span v-if="user?.online === 'online'" class="user-status">в сети</span>
+        <span v-if="user?.offline" class="user-status">был(а) недавно</span>
+        <div v-if="user?.typing === true" class="user-typing">печатает ...</div>
       </div>
     </header>
 
@@ -49,14 +51,14 @@
     </main>
 
     <!-- Футер (текстовая область и кнопка отправить) -->
-    <footer class="chat-footer">
+    <footer v-if="user?.id" class="chat-footer">
       <div class="input-wrapper">
         <textarea
           v-model="text"
           rows="2"
           @input="handleTyping"
           @keydown.enter.exact.prevent="send"
-          placeholder="Введите сообщение для Юлии..."
+          :placeholder="partnerName ? `Введите сообщение для ${partnerName}...` : 'Введите сообщение...'"
           class="chat-textarea"
         ></textarea>
         <button
@@ -79,9 +81,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, watch, computed, onUnmounted, nextTick,toRaw } from 'vue';
+
 import { initSocket, joinRoom, disconnectSocket } from '@socket/socketService';
 import { v4 as uuidv4 } from 'uuid';
+import useUserStore from '@chat/stores/userStore';
+import useMessagesStore from '@chat/stores/MessagesStore';
 
 const props = defineProps(['authUser']);
 
@@ -90,32 +95,25 @@ const authUser = ref(
   props.authUser || window.authUser || { id: 1, name: 'admin', email: 'admin@mail.ru' }
 );
 
-// Моковый собеседник — Юлия (id = 2)
-const user = ref({
-  id: 2,
-  name: 'Юлия',
+//store
+const userStore = useUserStore();
+const messagesStore = useMessagesStore();
+
+
+
+//computed
+const user = computed(() => userStore?.user_partner);
+const partnerName = computed(() => {
+  const u = user.value;
+  if (!u) return '';
+  const fullName = [u.first_name, u.last_name].filter(Boolean).join(' ');
+  return u.name || fullName || u.email || (u.id ? `User #${u.id}` : '');
 });
-
-// Моковый массив сообщений (индекс 0 отображается внизу из-за flex-direction: column-reverse)
-const messages = ref([
-  {
-    uuid: 'mock-msg-2',
-    sender_id: authUser.value.id,
-    receiver_id: 2,
-    text: 'Привет, Юлия! Проверяю отправку сообщений через server.js.',
-    status: 2,
-    created_at: '2026-11-26T10:05:00.000Z',
-  },
-  {
-    uuid: 'mock-msg-1',
-    sender_id: 2,
-    receiver_id: authUser.value.id,
-    text: 'Привет! Напиши что-нибудь для проверки сокета.',
-    status: 3,
-    created_at: '2026-11-26T10:00:00.000Z',
-  },
-]);
-
+const messages = computed(() => messagesStore?.selectedMessages || []);
+const hasMore = computed(() => Boolean(messagesStore?.hasMore));
+let currentPage = 1; 
+const isAllLoaded = ref(false); 
+const isScreenFilled = ref(false); 
 const text = ref('');
 const isSending = ref(false);
 const socket = ref(null);
@@ -151,11 +149,43 @@ const activity = () => {};
 const handleTyping = () => {};
 const handleScroll = () => {};
 
+
+const fetchAndSyncMessages = async () => {
+  const chat_id = user.value?.chat_id;
+  if (!chat_id) {
+    messagesStore.setMessages([]);
+    return;
+  }
+
+  currentPage = 1;
+  isAllLoaded.value = false;
+
+  try {
+    const res = await messagesStore.fetchMessages({
+      chat_id,
+      created_at: 0,
+      newm: 1,
+      page: currentPage,
+    });
+
+    // Защита от гонки при быстром переключении между чатами
+    if (user.value?.chat_id !== chat_id) return;
+
+    messagesStore.setMessages(res?.data || []);
+  } catch (err) {
+    if (user.value?.chat_id === chat_id) {
+      messagesStore.setMessages([]);
+    }
+  }
+};
+
+
 const handleNewMessage = (incomingMsg) => {
-  console.log('Получено сообщение из server.js:', incomingMsg);
-  const exists = messages.value.some((m) => m.uuid === incomingMsg.uuid);
+  if (!incomingMsg) return;
+  const currentList = messages.value || [];
+  const exists = currentList.some((m) => m.uuid === incomingMsg.uuid);
   if (!exists) {
-    messages.value.unshift({ ...incomingMsg, isNew: true });
+    messagesStore.setMessages([{ ...incomingMsg, isNew: true }, ...currentList]);
   }
   if (pendingUuid && incomingMsg.uuid === pendingUuid) {
     finishSending();
@@ -183,7 +213,8 @@ const send = () => {
     uuid,
     text: trimmed,
     sender_id: authUser.value?.id || 1,
-    receiver_id: 2, // отправляем Юлии (id = 2)
+    receiver_id: user.value?.id || 2,
+    chat_id: user.value?.chat_id || null,
     status: 1,
     created_at: new Date().toISOString(),
   };
@@ -240,6 +271,68 @@ onUnmounted(() => {
   }
   disconnectSocket();
 });
+
+
+
+
+
+watch(() => user.value?.chat_id, (newChatId) => {
+  isScreenFilled.value = false;
+  loadPartition.value = false;
+  isAllLoaded.value = false;
+  currentPage = 1;
+
+  if (newChatId) {
+    const userId = user.value?.id;
+    messagesStore.setIsOpen(userId);
+    //startReadTimer(userId);
+    fetchAndSyncMessages();
+  } else {
+    messagesStore.setIsOpen(null);
+    messagesStore.setMessages([]);
+  }
+}, { immediate: true });
+watch(messages, async () => {
+  //выключение автоматического заполнителя 
+  if (isScreenFilled.value || !hasMore.value || loadPartition.value) return;
+  await nextTick();
+  
+  if (!messagesArea.value || !textBox.value) return;
+
+  
+  const areaRect = messagesArea.value.getBoundingClientRect();
+  const textBoxRect = textBox.value.getBoundingClientRect();
+
+
+  // Чистая физическая высота контейнера на экране (без учета внутренних прокруток)
+  const areaHeightWithoutScroll = areaRect.height; 
+  
+   // Реальная высота контента, которую занял text-box со всеми сообщениями
+  const currentTextBoxHeight = textBoxRect.height;
+
+
+
+
+  console.log('--- Точные замеры JS ---');
+  console.log('Высота окна messages-area:', areaHeightWithoutScroll);
+  console.log('Текущая высота text-box:', currentTextBoxHeight);
+
+  // Сравниваем физические размеры блоков
+  if (currentTextBoxHeight > areaHeightWithoutScroll) {
+    console.log('Контент сравнялся или стал больше окна. Выключаем автомат.');
+	 //await loadMore();
+    isScreenFilled.value = true;
+  } else {
+    console.log('Место еще есть, вызываем следующую страницу...');
+    //await loadMore();
+  }
+ 
+ 
+ 
+ 
+}, { deep: true });
+
+
 </script>
 
 

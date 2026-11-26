@@ -8,5 +8,6 @@ use Modules\Chat\Http\Controllers\UsersController;
 
 Route::group(['middleware' => ['auth.admin']], function () {
 	Route::get('chat/{user?}', [UsersController::class, 'chat'])->name('chat');
-	Route::get('users', [Users::class, 'index'])->name('users');
+	//Route::get('users', [Users::class, 'index'])->name('users');
+	
 });

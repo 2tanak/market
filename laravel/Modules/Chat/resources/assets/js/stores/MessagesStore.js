@@ -12,41 +12,31 @@ export default defineStore('messages', {
   }),
   actions: {
     async fetchMessages({ chat_id, created_at = 0, newm = 1, page = 1 }) {
-		
-      if (!chat_id) return;
+      if (!chat_id) {
+        return { data: [], pagination: { current_page: 1, has_more: false } };
+      }
 
+      const pageNum = Number(page) || 1;
       this.loading = true;
       try {
-		
-        const response = await axios.get(`/messages/${chat_id}/${created_at}/${newm}/${Number(page)}`);
-        if (page === 1) {
-          console.log('page-1');
-          //const result = response.data.data.reverse();
-          //console.log(result);
-		  console.log(88888888888888888);
-		  if(response.data){
-		    const {data, pagination} = response.data;
-			if(data.length > 0){
-				this.hasMore = pagination.has_more;
-				this.loading = false;
-				return response.data;
-				//this.selectedMessages = response.data.data || [];
-			}else{
-				this.hasMore = false;
-			}
-			
-		  }
-		  
-          
+        const response = await axios.get(
+          `/api/messages/${chat_id}/${encodeURIComponent(created_at)}/${newm}/${pageNum}`
+        );
 
-        } else {
-			this.hasMore = false;
-          //this.selectedMessages = [...response.data, ...this.selectedMessages];
-        }
+        const data = Array.isArray(response?.data?.data) ? response.data.data : [];
+        const pagination = response?.data?.pagination || {};
 
-        return response.data;
+        this.currentPage = pagination.current_page || pageNum;
+        this.hasMore = data.length > 0 ? Boolean(pagination.has_more) : false;
+
+        return {
+          ...(response?.data || {}),
+          data,
+          pagination,
+        };
       } catch (err) {
         console.error('Ошибка загрузки сообщений:', err);
+        this.hasMore = false;
         throw err;
       } finally {
         this.loading = false;
@@ -85,18 +75,11 @@ export default defineStore('messages', {
     },
 
     setMessages(messages) {
-      if (!messages) {
-        console.log('messages==0');
+      if (!Array.isArray(messages)) {
+        this.selectedMessages = [];
         return;
       }
-      console.log('addMessage сообщение пришло');
-      console.log(messages);
-
       this.selectedMessages = [...messages];
-
-
-      //console.log('новвй сокет добавлен в стейт messages:');
-      //console.log(this.selectedMessages);
     },
 
   }
