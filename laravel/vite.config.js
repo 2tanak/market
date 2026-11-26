@@ -45,6 +45,8 @@ export default defineConfig(({ mode }) => {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
 		     '@base_resources': path.resolve(__dirname, 'resources/js'),
+		     '@socket': path.resolve(__dirname, 'resources/js/socket'),
+		     '@base': path.resolve(__dirname, 'resources/js/socket'),
 		     '@modules': path.resolve(__dirname, 'Modules'),
 			 '@chat': path.resolve(__dirname, 'Modules/Chat/resources/assets/js'),
         },

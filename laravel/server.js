@@ -9,7 +9,7 @@ const port = process.env.PORT;
 
 const redis_port = process.env.REDIS_PORT || 6379;
 
-const url = process.env.APP_URL;
+const url = process.env.INTERNAL_API_URL || 'http://nginx';
 
 const message = (name, text, id) => ({name, text, id});
 
@@ -115,6 +115,25 @@ io.on('connection', socket => {
     }
   });
 
+  socket.on('send_message', data => {
+    const receiverId = data?.receiver_id || 2;
+    const outgoingMessage = {
+      uuid: data?.uuid || String(Date.now()),
+      text: data?.text || '',
+      sender_id: userId,
+      receiver_id: receiverId,
+      status: 1,
+      created_at: data?.created_at || new Date().toISOString(),
+    };
+
+    console.log(`Принято сообщение от ${userId} для ${receiverId}:`, outgoingMessage.text);
+
+    socket.emit('new_message', outgoingMessage);
+    if (Number(receiverId) !== Number(userId)) {
+      io.to(`user_room_${receiverId}`).emit('new_message', outgoingMessage);
+    }
+  });
+/*
   socket.on('status', data => {
     const userId = socket.verifiedUserId;
 
@@ -139,7 +158,7 @@ io.on('connection', socket => {
       status: data.status,
     });
   });
-
+*/
   socket.on('disconnect', () => {
     console.log('Пользователь отключился:', userId);
 
@@ -210,7 +229,7 @@ subClient.on('pmessage', async function (pattern, channel, message) {
           console.log(
             `Таймаут подтверждения для сообщения ${msgId}. Запускаем Job в Laravel.`,
           );
-          triggerLaravelJob(msgId, token);
+          //triggerLaravelJob(msgId, token);
         } else {
 			const clientResponse = responses[0];
             const statusFromClient = clientResponse?.status;
@@ -218,7 +237,7 @@ subClient.on('pmessage', async function (pattern, channel, message) {
           console.log(
             `Сообщение ${msgId} получено клиентом. Очередь не нужна.`,
           );
-          triggerLaravelStatusUpdate(msgId, statusFromClient, token,sender_id,eventName,parsed);
+          //triggerLaravelStatusUpdate(msgId, statusFromClient, token,sender_id,eventName,parsed);
 		  
 		   // 2. СРАЗУ шлем отправителю обновленный статус
 		       //io.to(`user_room_${sender_id}`).emit(eventName, parsed.data);

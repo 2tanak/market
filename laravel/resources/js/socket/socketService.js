@@ -1,11 +1,13 @@
-//import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 let socketInstance = null;
 
 export const initSocket = (apitoken,userEmail) => {
     if (socketInstance && socketInstance.connected) return socketInstance;
 
-    socketInstance = io( "http://192.168.8.8:3000", {
+    const socketUrl = `http://${window.location.hostname}:3000`;
+
+    socketInstance = io(socketUrl, {
 		//withCredentials: true,
         auth: {
           token: apitoken, // Берем из глобальной области

@@ -13,6 +13,7 @@
           @include('admin::__block.page_header')
           @include('admin::__block.notifications')
           @yield('content')
+		   <chat></chat>
         </div>
       </div>
 
