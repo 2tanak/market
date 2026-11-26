@@ -105,6 +105,9 @@ networks:
   node_net:
     driver: bridge
     name: node_net
+
 volumes:
   node_modules: 
   redis_data:
+
+
