@@ -91,6 +91,7 @@ grafika:
 	
 chat:
 	docker-compose exec node npm install cors
+	docker-compose exec node npm install vue-router
 	docker-compose exec node npm install cors --loglevel verbose
 	docker-compose exec node npm install express --maxsockets=1 --no-audit --no-fund --loglevel verbose
 	docker-compose exec node npm install ioredis

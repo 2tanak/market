@@ -88,7 +88,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useUserStore from '@chat/stores/userStore';
 import useMessagesStore from '@chat/stores/MessagesStore';
 
-const props = defineProps(['authUser']);
+const props = defineProps(['user']);
 
 // Текущий авторизованный пользователь (из пропсов, window или мок)
 const authUser = ref(
@@ -102,7 +102,8 @@ const messagesStore = useMessagesStore();
 
 
 //computed
-const user = computed(() => userStore?.user_partner);
+const user = computed(() => props.user ?? userStore?.user_partner);
+
 const partnerName = computed(() => {
   const u = user.value;
   if (!u) return '';

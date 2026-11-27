@@ -142,7 +142,7 @@ export default {
       // handleActivity(this.socket, this.isOnlineStore);
 	  //console.log(contact);
       this.userStore.setUser(contact);
-      // this.$router.push(`/chat/${contact.id}`);
+      this.$router.push(`/chat/${contact.id}`);
     },
 
     handleScroll(e) {

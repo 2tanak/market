@@ -10,9 +10,10 @@ class ChatController extends Controller
 {
     public function chat(Request $request, ?Users $user = null)
     {
+		//dd($user);
         return view('chat::chat', [
             'user' => $user,
-            'auth' => auth()->user(),
+            
         ]);
     }
 }
