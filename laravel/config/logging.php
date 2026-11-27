@@ -126,7 +126,17 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'chat' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/chat.log'),
+            'level' => 'debug',
+        ],
 
+        'ping_socket' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/ping_socket.log'),
+            'level' => 'debug',
+        ],
     ],
 
 ];

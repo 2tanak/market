@@ -16,13 +16,13 @@ class Filter extends ModelFilter
         // chat_id
         $chat_id = $request->chat_id;
 
-        $this->query->where(function ($q) use ($myId, $chat_id) {
+        $this->query->where(function ($q) use ($chat_id) {
             $q->where('chat_id', $chat_id);
             // $q->where('sender_id', $myId)->where('_id', $friendId)
             //     ->orWhere('sender_id', $friendId)->where('receiver_id', $myId);
         });
 
-        if (!empty($request->created_at) && $request->created_at !== '0' && $request->created_at !== 'null') {
+        if (! empty($request->created_at) && $request->created_at !== '0' && $request->created_at !== 'null') {
             $newm = filter_var($request->newm, FILTER_VALIDATE_BOOLEAN);
             $formattedDate = Carbon::parse($request->created_at)
                 ->timezone(config('app.timezone'))
@@ -40,4 +40,3 @@ class Filter extends ModelFilter
         $this->query->orderBy('id', 'desc');
     }
 }
-

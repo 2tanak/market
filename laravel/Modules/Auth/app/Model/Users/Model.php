@@ -2,27 +2,28 @@
 
 namespace Modules\Auth\Model\Users;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Auth\database\factories\UserFactory; 
-use Modules\Entity\Contracts\UniversalModelInterface;
-use Modules\Entity\Traits\UniversalLogic;
-use Modules\Entity\Traits\FilterModel;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\database\factories\UserFactory;
+use Modules\Entity\Contracts\UniversalModelInterface;
+use Modules\Entity\Traits\FilterModel;
+use Modules\Entity\Traits\UniversalLogic;
 
 class Model extends Authenticatable implements UniversalModelInterface
 {
-    use HasApiTokens, UniversalLogic, FilterModel,HasFactory, Notifiable;
-    
+    use FilterModel, HasApiTokens, HasFactory,Notifiable, UniversalLogic;
+
     protected $table = 'users';
-	//protected $appends = ['input_name','input_title'];
-	
-    protected function filterClass() {
-       return Filter::class;
+    // protected $appends = ['input_name','input_title'];
+
+    protected function filterClass()
+    {
+        return Filter::class;
     }
-	
+
     protected $fillable = [
         'id',
         'first_name',
@@ -32,7 +33,7 @@ class Model extends Authenticatable implements UniversalModelInterface
         'phone',
         'blocked',
         'password',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     protected $hidden = [
@@ -46,15 +47,11 @@ class Model extends Authenticatable implements UniversalModelInterface
      */
     protected static function newFactory(): UserFactory
     {
-        return new UserFactory();
+        return new UserFactory;
     }
-	
-	
-	 public function setPasswordAttribute($value)
+
+    public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
-	
-	
-	
 }

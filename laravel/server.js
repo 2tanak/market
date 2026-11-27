@@ -229,7 +229,7 @@ subClient.on('pmessage', async function (pattern, channel, message) {
           console.log(
             `Таймаут подтверждения для сообщения ${msgId}. Запускаем Job в Laravel.`,
           );
-          //triggerLaravelJob(msgId, token);
+          triggerLaravelJob(msgId, token);
         } else {
 			const clientResponse = responses[0];
             const statusFromClient = clientResponse?.status;
@@ -237,15 +237,7 @@ subClient.on('pmessage', async function (pattern, channel, message) {
           console.log(
             `Сообщение ${msgId} получено клиентом. Очередь не нужна.`,
           );
-          //triggerLaravelStatusUpdate(msgId, statusFromClient, token,sender_id,eventName,parsed);
-		  
-		   // 2. СРАЗУ шлем отправителю обновленный статус
-		       //io.to(`user_room_${sender_id}`).emit(eventName, parsed.data);
-
-   
-		  
-		  
-		  
+          triggerLaravelStatusUpdate(msgId, statusFromClient, token,sender_id,eventName,parsed);
         }
       });
   } else {
@@ -293,7 +285,10 @@ async function triggerLaravelStatusUpdate(messageId, status, token,sender_id,eve
         status: status,
       },
       {
-        headers: {Authorization: `Bearer ${token}`},
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
       },
     );
     console.log(`[Laravel] Статус 2 для сообщения ${messageId} подтвержден`);

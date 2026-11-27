@@ -2,12 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use Modules\Auth\Http\Controllers\Api\AuthController;
 
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
-   Route::post('login', [AuthController::class,'login'])->name('login');
- 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -21,6 +19,6 @@ Route::middleware('auth:sanctum')->post('/verify-token', function (Request $requ
     return response()->json([
         'success' => true,
         'user_id' => $user->id,
-        'email'   => $user->email // можно еще почту для логов
+        'email' => $user->email, // можно еще почту для логов
     ]);
 });

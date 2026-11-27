@@ -12,22 +12,22 @@ trait MainShowMethod
         dd(13000000);
 
         /*
-		if($request->lang != 'ru'){
-	   $item->setLocale($request->lang);
-	}
+        if($request->lang != 'ru'){
+       $item->setLocale($request->lang);
+    }
 
           if($request->lang){
-		  $item->setLocale($request->lang);
+          $item->setLocale($request->lang);
           }
-           
-	
-	
-	
-		   
-		   
+
+
+
+
+
+
         $title = trans($this->title_path.'_show');
-   
-       
+
+
 
         return view($this->view_path.'.show', [
             'title' => $title,
@@ -36,6 +36,6 @@ trait MainShowMethod
                 route($this->route_path) => trans($this->title_path.'')
             ]
         ]);
-		*/
+        */
     }
 }

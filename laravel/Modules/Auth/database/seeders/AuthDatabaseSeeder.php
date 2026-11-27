@@ -3,7 +3,7 @@
 namespace Modules\Auth\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Auth\database\seeders\UserSeeder; 
+use Modules\Auth\database\seeders\UserSeeder;
 
 class AuthDatabaseSeeder extends Seeder
 {
@@ -12,10 +12,10 @@ class AuthDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-		
-		 $this->call([
+
+        $this->call([
             UserSeeder::class,
         ]);
-		
+
     }
 }

@@ -14,10 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         // Строим абсолютный путь от корня проекта с учетом разделителей Windows/Linux
-        $path = base_path('Modules' . DIRECTORY_SEPARATOR . 'Blog' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'bd' . DIRECTORY_SEPARATOR . 'categories.sql');
+        $path = base_path('Modules'.DIRECTORY_SEPARATOR.'Blog'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'bd'.DIRECTORY_SEPARATOR.'categories.sql');
 
-        if (!File::exists($path)) {
+        if (! File::exists($path)) {
             $this->command->error("Файл дампа не найден по пути: {$path}");
+
             return;
         }
 

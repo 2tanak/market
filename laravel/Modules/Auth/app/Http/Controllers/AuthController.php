@@ -49,7 +49,7 @@ class AuthController extends Controller
         $request->session()->forget('api_token');
 
         if ($request->lang) {
-            return redirect('/' . $request->lang . '/');
+            return redirect('/'.$request->lang.'/');
         }
 
         return redirect('/');

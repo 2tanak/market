@@ -62,4 +62,3 @@ class Model extends ModelParent
         return $this->belongsTo(User::class, 'receiver_id');
     }
 }
-

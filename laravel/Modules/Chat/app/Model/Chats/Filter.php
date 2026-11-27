@@ -11,4 +11,3 @@ class Filter extends ModelFilter
         // $this->query->where(['publish' => 1]);
     }
 }
-

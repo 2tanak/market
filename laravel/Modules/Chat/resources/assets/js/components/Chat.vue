@@ -2,9 +2,9 @@
   <div class="chat-parent" @mousedown="activity">
     <!-- Шапка -->
     <header class="chat-header">
-      <div v-if="partnerName" class="avatar"></div>
+      <div v-if="user?.id" class="avatar"></div>
       <div class="user-info">
-        <span class="user-name">{{ partnerName }}</span>
+        <span class="user-name">{{ user?.name }}</span>
         <span v-if="user?.online === 'online'" class="user-status">в сети</span>
         <span v-if="user?.offline" class="user-status">был(а) недавно</span>
         <div v-if="user?.typing === true" class="user-typing">печатает ...</div>
@@ -58,13 +58,13 @@
           rows="2"
           @input="handleTyping"
           @keydown.enter.exact.prevent="send"
-          :placeholder="partnerName ? `Введите сообщение для ${partnerName}...` : 'Введите сообщение...'"
+          :placeholder="'Введите сообщение...'"
           class="chat-textarea"
         ></textarea>
         <button
           type="button"
           @click="send"
-          :disabled="isSending || !text.trim()"
+          :disabled="isSending"
           :class="['send-btn', { 'is-sending': isSending, 'is-ready': !!text.trim() }]"
           aria-label="Отправить сообщение"
         >
@@ -82,7 +82,7 @@
 
 <script setup>
 import { ref, onMounted, watch, computed, onUnmounted, nextTick,toRaw } from 'vue';
-
+import axios from 'axios';
 import { initSocket, joinRoom, disconnectSocket } from '@socket/socketService';
 import { v4 as uuidv4 } from 'uuid';
 import useUserStore from '@chat/stores/userStore';
@@ -103,16 +103,9 @@ const messagesStore = useMessagesStore();
 
 //computed
 const user = computed(() => props.user ?? userStore?.user_partner);
-
-const partnerName = computed(() => {
-  const u = user.value;
-  if (!u) return '';
-  const fullName = [u.first_name, u.last_name].filter(Boolean).join(' ');
-  return u.name || fullName || u.email || (u.id ? `User #${u.id}` : '');
-});
 const messages = computed(() => messagesStore?.selectedMessages || []);
 const hasMore = computed(() => Boolean(messagesStore?.hasMore));
-let currentPage = 1; 
+ 
 const isAllLoaded = ref(false); 
 const isScreenFilled = ref(false); 
 const text = ref('');
@@ -125,16 +118,20 @@ const messagesArea = ref(null);
 const textBox = ref(null);
 
 const MIN_SEND_ANIM_MS = 400;
+
+let currentPage = 1;
 let pendingUuid = null;
 let sendStartedAt = 0;
 let unlockTimer = null;
+let product_id = 1;
+let listing_id = 1;
 
 const finishSending = () => {
   const elapsed = Date.now() - sendStartedAt;
   const remaining = Math.max(0, MIN_SEND_ANIM_MS - elapsed);
   clearTimeout(unlockTimer);
   unlockTimer = setTimeout(() => {
-    isSending.value = false;
+    isSending.value = true;
     pendingUuid = null;
   }, remaining);
 };
@@ -196,39 +193,64 @@ const handleNewMessage = (incomingMsg) => {
 const send = () => {
   if (isSending.value) return;
 
-  const trimmed = text.value.trim();
-  if (!trimmed) return;
+  const text_trim = text.value.trim();
+  if (!text_trim) return;
 
   if (!socket.value || !socket.value.connected) {
     console.warn('Сокет ещё не подключен к server.js');
     return;
   }
-
+  
+  const user_partner = user?.value;
+  const message = {
+      uuid: uuidv4(),
+      channels: 'action',
+      text: text_trim,
+      status: 1,
+	  seller_id: user_partner?.id,
+      sender_id: authUser?.value?.id,
+      created_at: new Date().toISOString(),
+	   ...(user_partner?.chat_id 
+        ? { chat_id: user_partner?.chat_id } 
+        : { listing_id: product.value?.id || null }
+      )
+    };
+   messagesStore.setMessage(message);
+  
+  
+  
   isSending.value = true;
-  sendStartedAt = Date.now();
+  
+  //socket.value.emit('send_message', payload);
+   try {
+      axios({
+        method: "post", 
+        url: "/api/message",
+        data: message,
 
-  const uuid = uuidv4();
-  pendingUuid = uuid;
+        headers: {
+          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          //'X-Requested-With': 'XMLHttpRequest'
+        }
+      }).then(response => {
+        isSending.value = false;
+        text.value = '';
 
-  const payload = {
-    uuid,
-    text: trimmed,
-    sender_id: authUser.value?.id || 1,
-    receiver_id: user.value?.id || 2,
-    chat_id: user.value?.chat_id || null,
-    status: 1,
-    created_at: new Date().toISOString(),
-  };
 
-  socket.value.emit('send_message', payload);
-  text.value = '';
+      });
 
-  // Страховочный разблок, если ответ от сервера задержался
-  clearTimeout(unlockTimer);
-  unlockTimer = setTimeout(() => {
-    isSending.value = false;
-    pendingUuid = null;
-  }, 3000);
+    }
+    catch (error) {
+      console.error('Ошибка отправки:', error);
+      //setTextinput(messageToSend);
+    }
+  
+  
+  
+  
+ 
+
+
 };
 
 onMounted(() => {

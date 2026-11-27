@@ -13,7 +13,7 @@ class ContentManagerScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if (!Auth::guest()) {
+        if (! Auth::guest()) {
             $user = Auth::user()->id;
 
             if (

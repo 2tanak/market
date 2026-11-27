@@ -2,8 +2,9 @@
 
 namespace Modules\Entity\Contracts;
 
-interface UniversalModelInterface {
+interface UniversalModelInterface
+{
     public function relTrans();
+
     public function setLocale($locale = false);
-  
 }

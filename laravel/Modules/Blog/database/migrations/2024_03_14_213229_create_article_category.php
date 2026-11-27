@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('article_category', function (Blueprint $table) {
             // Создает int NOT NULL для article_id
-            $table->integer('article_id'); 
-            
+            $table->integer('article_id');
+
             // Создает int NOT NULL для category_id
-            $table->integer('category_id'); 
-            
+            $table->integer('category_id');
+
             // Задает кодировку и движок (опционально, если они отличаются от дефолтных в config/database.php)
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';

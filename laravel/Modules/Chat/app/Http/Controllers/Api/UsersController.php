@@ -47,7 +47,7 @@ class UsersController extends Controller
         $usersCollection = collect($chats->items())->map(function ($chat) use ($myId) {
             $rawPartner = (int) $chat->buyer_id === $myId ? $chat->seller : $chat->buyer;
 
-            if (!$rawPartner) {
+            if (! $rawPartner) {
                 return null;
             }
 

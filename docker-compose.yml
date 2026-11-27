@@ -37,6 +37,34 @@ services:
       - node_net
     container_name: php-fpm
 
+  queue-worker:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_UID:-1000}
+        GROUP_ID: ${USER_GID:-1000}
+    container_name: laravel-worker
+    restart: always
+    volumes:
+      - ./laravel:/var/www/app
+    environment:
+      - "DB_PORT=${DB_PORT}"
+      - "DB_HOST=${DB_HOST}"
+      - REDIS_HOST=redis
+      - "REDIS_PORT=${REDIS_PORT}"
+      #- RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - mysql
+      - redis
+      #- rabbitmq
+      - php-fpm
+    networks:
+      - node_net
+    #command: php artisan queue:work --verbose
+    entrypoint: ["php", "artisan", "queue:work", "--verbose", "--sleep=1", "--tries=3"]
+
+
   mysql:
     platform: linux/x86_64
     image: mysql:8.0

@@ -10,10 +10,16 @@ class ChatController extends Controller
 {
     public function chat(Request $request, ?Users $user = null)
     {
-		//dd($user);
+        // dd($user);
         return view('chat::chat', [
             'user' => $user,
-            
+
         ]);
+    }
+
+    public function chat_test(Request $request, ?Users $user = null)
+    {
+        // dd($user);
+        return response()->json(['ok' => $user]);
     }
 }

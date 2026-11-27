@@ -2,27 +2,25 @@
 
 namespace Modules\Entity\Actions\Base;
 
+use App\Services\Avatar\Avatar;
+use App\Services\Editor\EditorImage;
+use App\Services\Slider\Slider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use App\Services\UploadPhoto;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Laravel\Facades\Image;
-use App\Services\Avatar\Avatar; 
-use App\Services\Slider\Slider;
-use App\Services\Editor\EditorImage;
-
-use Route;
-use Cache;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class UpdateAction
 {
     protected $model;
+
     protected $validator;
+
     protected $request;
 
     // Убираем Request из конструктора
-    function __construct(Model $model, Request $request, $validator)
+    public function __construct(Model $model, Request $request, $validator)
     {
 
         $this->model = $model;
@@ -31,11 +29,10 @@ class UpdateAction
         $this->request = $request;
     }
 
-
-    function run()
+    public function run()
     {
         DB::transaction(function () {
-			//dd($this->request->all());
+            // dd($this->request->all());
             $validated = $this->validator->validated();
 
             if (isset($validated['description'])) {
@@ -45,11 +42,11 @@ class UpdateAction
 
             if (app()->getLocale() && app()->getLocale() != env('APP_LOCALE')) {
 
-                //dd($this->model->relTrans());
+                // dd($this->model->relTrans());
                 $this->model->relTrans()->updateOrCreate(
                     [
                         'lang' => $this->request->lang,
-                        'transable_id' => $this->model->id
+                        'transable_id' => $this->model->id,
                     ],
                     $this->validator->validated()
                 );
@@ -57,36 +54,31 @@ class UpdateAction
 
                 $this->saveMain($validated);
             }
-            
-			if ($this->request->hasFile('image') && $this->request->file('image')->isValid()) {
+
+            if ($this->request->hasFile('image') && $this->request->file('image')->isValid()) {
                 Avatar::save($this->model);
             }
-			
-			if ($this->request->has('existing_slider_images') || $this->request->has('slider_images')) {
+
+            if ($this->request->has('existing_slider_images') || $this->request->has('slider_images')) {
                 Slider::save($this->model);
             }
-			
-			
-		});
-				
-}
-  
+
+        });
+
+    }
+
     private function saveMain(array $data)
     {
         $this->model->fill($data);
         $this->model->save();
     }
 
-
-    
-
-
     private function moveEditorImages(string $content): string
     {
         $disk = 'public';
-        $permanentDir = 'uploads/' . date('Y/m') . '/editor';
+        $permanentDir = 'uploads/'.date('Y/m').'/editor';
 
-        if (!Storage::disk($disk)->exists($permanentDir)) {
+        if (! Storage::disk($disk)->exists($permanentDir)) {
             Storage::disk($disk)->makeDirectory($permanentDir);
         }
 
@@ -95,16 +87,16 @@ class UpdateAction
 
         $recordsToInsert = [];
 
-        if (!empty($matches[1])) {
+        if (! empty($matches[1])) {
             // Конфигурация размеров (large идет без суффикса, а medium и small с суффиксами)
             $sizesConfig = [
-                'large'  => ['width' => 1200, 'suffix' => ''],
+                'large' => ['width' => 1200, 'suffix' => ''],
                 'medium' => ['width' => 768,  'suffix' => '_medium'],
-                'small'  => ['width' => 300,  'suffix' => '_small'],
+                'small' => ['width' => 300,  'suffix' => '_small'],
             ];
 
             foreach ($matches[1] as $fileName) {
-                $oldPath = 'uploads/temp/' . $fileName;
+                $oldPath = 'uploads/temp/'.$fileName;
 
                 if (Storage::disk($disk)->exists($oldPath)) {
                     $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -116,14 +108,14 @@ class UpdateAction
 
                     // Заготовка строки для таблицы files
                     $imageRecord = [
-                        'disk'          => $disk,
+                        'disk' => $disk,
                         'original_name' => $originalName,
-                        'extension'     => $extension,
-                        'mime_type'     => $mimeType,
-                        'size'          => $size,
-                        'description'   => $this->model->title ?? $this->model->name ?? null,
-                        'created_at'    => now(),
-                        'updated_at'    => now(),
+                        'extension' => $extension,
+                        'mime_type' => $mimeType,
+                        'size' => $size,
+                        'description' => $this->model->title ?? $this->model->name ?? null,
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ];
 
                     // Нарезаем и динамически пишем ключи путей
@@ -143,7 +135,7 @@ class UpdateAction
                         Storage::disk($disk)->put($relativePath, $encoded->toString());
 
                         // Пишем в large_path, medium_path, small_path
-                        $imageRecord[$key . '_path'] = $relativePath;
+                        $imageRecord[$key.'_path'] = $relativePath;
                     }
 
                     // В оригинальный путь пишем ссылку на основной файл (без суффикса)
@@ -151,41 +143,39 @@ class UpdateAction
                     $recordsToInsert[] = $imageRecord;
 
                     // ПОДМЕНА ССЫЛКИ: Меняем временную ссылку на чистый оригинальный путь на постоянке
-                    $oldUrl = '/storage/uploads/temp/' . $fileName;
-                    $newUrl = '/storage/' . $imageRecord['large_path'];
+                    $oldUrl = '/storage/uploads/temp/'.$fileName;
+                    $newUrl = '/storage/'.$imageRecord['large_path'];
                     $content = str_replace($oldUrl, $newUrl, $content);
 
                     Storage::disk($disk)->delete($oldPath);
                 }
             }
 
-            if (!empty($recordsToInsert) && method_exists($this->model, 'files')) {
+            if (! empty($recordsToInsert) && method_exists($this->model, 'files')) {
                 $this->model->files()->createMany($recordsToInsert);
             }
         }
 
-
         $oldDescription = $this->model->getOriginal('description');
 
-        //удаление с диска и базы удаленных файлов
-        if ($this->model->exists && !empty($oldDescription)) {
+        // удаление с диска и базы удаленных файлов
+        if ($this->model->exists && ! empty($oldDescription)) {
 
             preg_match_all('/storage\/uploads\/\d{4}\/\d{2}\/editor\/([a-z0-9_]+)\.([a-z]{3,4})/i', $oldDescription, $oldMatches);
 
-            //return $content;
-            if (!empty($oldMatches[1])) {
+            // return $content;
+            if (! empty($oldMatches[1])) {
                 foreach ($oldMatches[1] as $index => $baseName) {
 
                     // Если уникального имени файла больше нет в новом тексте — удаляем всю пачку с диска
-                    if (!str_contains($content, $baseName)) {
+                    if (! str_contains($content, $baseName)) {
                         $mainPath = str_replace('storage/', '', $oldMatches[0][$index]);
 
-                        $mediumPath = str_replace($baseName, $baseName . '_medium', $mainPath);
+                        $mediumPath = str_replace($baseName, $baseName.'_medium', $mainPath);
 
-                        $smallPath  = str_replace($baseName, $baseName . '_small', $mainPath);
+                        $smallPath = str_replace($baseName, $baseName.'_small', $mainPath);
 
                         Storage::disk($disk)->delete([$mainPath, $mediumPath, $smallPath]);
-
 
                         if (method_exists($this->model, 'files')) {
                             $this->model->files()

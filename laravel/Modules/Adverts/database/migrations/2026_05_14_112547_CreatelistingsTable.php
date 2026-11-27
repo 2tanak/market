@@ -13,25 +13,25 @@ return new class extends Migration
     {
         Schema::create('listings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-          
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
             // Индекс на категорию обязателен
-            $table->foreignId('ads_category_id')->index()->constrained('ads_categories')->onDelete('cascade'); 
-            
+            $table->foreignId('ads_category_id')->index()->constrained('ads_categories')->onDelete('cascade');
+
             $table->string('title');
             $table->text('description');
-			
+
             // Индекс на цену, чтобы моментально работал ползунок фильтра "Цена от и до"
             $table->unsignedInteger('price')->index();
-			
+
             // Индекс на статус, чтобы отсекать проданные или забаненные товары
-            $table->string('status')->default('active')->index(); 
-			
-            $table->json('properties')->nullable(); 
+            $table->string('status')->default('active')->index();
+
+            $table->json('properties')->nullable();
             $table->timestamps();
 
             // ВАЖНО: Правильный чистый SQL-синтаксис для MySQL 8.0 внутри virtualAs()
-            
+
             // 1. Количество комнат (Число, вернет NULL если ключа нет)
             $table->integer('search_rooms')
                 ->virtualAs('properties->"$.rooms"')
@@ -41,7 +41,7 @@ return new class extends Migration
             $table->integer('search_year')
                 ->virtualAs('properties->"$.year"')
                 ->nullable();
-			
+
             // 3. Объем памяти iPhone (Число, вернет NULL если ключа нет)
             $table->integer('search_storage')
                 ->virtualAs('properties->"$.storage"')
@@ -64,7 +64,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    { 
-        Schema::dropIfExists('listings'); 
+    {
+        Schema::dropIfExists('listings');
     }
 };

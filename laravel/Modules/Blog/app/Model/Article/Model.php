@@ -1,29 +1,27 @@
 <?php
-namespace Modules\Blog\Model\Article;
-use Modules\Entity\ModelParent;
-use Modules\Entity\Model\File\Model as File;
 
+namespace Modules\Blog\Model\Article;
+
+use Modules\Entity\Model\File\Model as File;
+use Modules\Entity\ModelParent;
 
 class Model extends ModelParent
 {
-	use Presenter;
+    use Presenter;
+
     protected $table = 'articles';
-    
+
     protected $fillable = ['title', 'description', 'publish'];
 
-    
-
-   function files()
+    public function files()
     {
-	  return $this->morphMany(\Modules\Entity\Model\File\Model::class, 'fileable');
-     
+        return $this->morphMany(File::class, 'fileable');
+
     }
 
-
-   
     public function transable(): MorphTo
     {
-        
+
         return $this->morphTo();
     }
 }

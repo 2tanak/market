@@ -1,6 +1,6 @@
 <?php
-namespace Modules\Auth\Http\Requests;
 
+namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
  */
 class AuthRequest extends FormRequest
 {
-    /**
-     * @return bool
-     */
     public function authorize(): bool
     {
         return true;
@@ -23,22 +20,20 @@ class AuthRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
-		
+
         $rules = [
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'string', 'min:8'],
-			
+
         ];
 
         if (Route::currentRouteName() === 'registration_save') {
-            $rules['email'][]    = 'unique:users';
+            $rules['email'][] = 'unique:users';
             $rules['password'][] = 'confirmed';
-            $rules['name']       = [
+            $rules['name'] = [
                 'required',
                 'string',
                 'max:255',
@@ -51,16 +46,14 @@ class AuthRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
     public function messages(): array
     {
         return [
-            'email.required'     => 'поле email обязательно к заполнению',
-            'email.unique'       => 'такой email уже есть',
-            'email.email'        => 'Не правильный email',
-            'password.min'       => 'пароль не менее :min символов',
+            'email.required' => 'поле email обязательно к заполнению',
+            'email.unique' => 'такой email уже есть',
+            'email.email' => 'Не правильный email',
+            'password.min' => 'пароль не менее :min символов',
             'password.confirmed' => 'Пароли не совподают',
         ];
     }

@@ -4,6 +4,7 @@ namespace Modules\Blog\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Modules\Blog\Model\Article\Model;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-		Route::model('blog', \Modules\Blog\Model\Article\Model::class);
+        Route::model('blog', Model::class);
         parent::boot();
     }
 

@@ -2,8 +2,8 @@
 
 namespace Modules\Adverts\Database\Seeders;
 
-use Modules\Adverts\database\seeders\ProductSeeder;
 use Illuminate\Database\Seeder;
+use Modules\Adverts\database\seeders\ProductSeeder;
 
 class AdvertsDatabaseSeeder extends Seeder
 {
@@ -12,8 +12,8 @@ class AdvertsDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-		$this->call([
-          ProductSeeder::class,
-		  ]);
+        $this->call([
+            ProductSeeder::class,
+        ]);
     }
 }

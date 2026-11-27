@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('sys_lang', function (Blueprint $table) {
             $table->id();
-			$table->string('sys_key',255)->nullable();
-			$table->string('name',255)->nullable();
+            $table->string('sys_key', 255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->timestamps();
         });
     }

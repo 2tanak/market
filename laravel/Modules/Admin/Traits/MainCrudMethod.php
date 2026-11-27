@@ -2,16 +2,13 @@
 
 namespace Modules\Admin\Traits;
 
-use Illuminate\Http\Request;
-
-
 trait MainCrudMethod
 {
-    use MainSystemMethods;
-    use MainListMethod;
     use MainCreateMethod;
-    use MainUpdateMethod;
     use MainDeleteMethod;
+    use MainListMethod;
     use MainShowMethod;
-    //use Utils;
+    use MainSystemMethods;
+    use MainUpdateMethod;
+    // use Utils;
 }

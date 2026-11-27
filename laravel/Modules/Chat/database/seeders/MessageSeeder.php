@@ -13,12 +13,13 @@ class MessageSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Укажи путь к твоему SQL файлу. 
+        // 1. Укажи путь к твоему SQL файлу.
         // Совет: положи messages.sql в Modules/Chat/Database/Seeders/sql/messages.sql
         $path = base_path('Modules/Chat/database/bd/messages.sql');
 
-        if (!File::exists($path)) {
+        if (! File::exists($path)) {
             $this->command->error("Файл базы не найден по пути: {$path}");
+
             return;
         }
 
@@ -30,7 +31,7 @@ class MessageSeeder extends Seeder
             DB::unprepared($sql);
             $this->command->info('База сообщений успешно импортирована, братан!');
         } catch (\Exception $e) {
-            $this->command->error("Ошибка при импорте: " . $e->getMessage());
+            $this->command->error('Ошибка при импорте: '.$e->getMessage());
         }
     }
 }

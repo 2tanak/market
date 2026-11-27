@@ -30,4 +30,3 @@ trait Presenter
         return $this->getTransField('description', $v);
     }
 }
-

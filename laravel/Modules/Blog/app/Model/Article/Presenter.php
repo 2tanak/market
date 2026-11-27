@@ -1,22 +1,25 @@
-<?php 
+<?php
+
 namespace Modules\Blog\Model\Article;
 
-use Cache;
+trait Presenter
+{
+    public function the_excerpt($text)
+    {
+        $text = preg_replace('~<img(.*)>~siU', '', $text);
 
-trait Presenter {
-	
-function the_excerpt($text){
-	  $text = preg_replace("~<img(.*)>~siU","",$text);
-		return substr(strip_tags($text),0,150);
+        return substr(strip_tags($text), 0, 150);
     }
-	
-	function getTitleAttribute($v){
-		
-		return $this->getTransField('title', $v);
+
+    public function getTitleAttribute($v)
+    {
+
+        return $this->getTransField('title', $v);
     }
-	function getDescriptionAttribute($v){
-		 
-		return $this->getTransField('description', $v);
+
+    public function getDescriptionAttribute($v)
+    {
+
+        return $this->getTransField('description', $v);
     }
 }
-

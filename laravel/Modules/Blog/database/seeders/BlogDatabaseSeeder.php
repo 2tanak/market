@@ -7,9 +7,6 @@ use Modules\Blog\database\seeders\ArticleCategorySeeder;
 use Modules\Blog\database\seeders\ArticleSeeder;
 use Modules\Blog\database\seeders\CategorySeeder;
 
-
-
-
 class BlogDatabaseSeeder extends Seeder
 {
     /**
@@ -17,10 +14,10 @@ class BlogDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         $this->call([
+        $this->call([
             ArticleCategorySeeder::class,
-			CategorySeeder::class,
-			ArticleSeeder::class
+            CategorySeeder::class,
+            ArticleSeeder::class,
         ]);
     }
 }

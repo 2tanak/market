@@ -1,36 +1,43 @@
-<?php 
+<?php
+
 namespace Modules\Entity\Model\File;
 
-use Cache;
 use Modules\Entity\Model\LibCity\Model as City;
-use Lang;
 
-trait Presenter {
-	
-function the_excerpt($text){
-	  $text = preg_replace("~<img(.*)>~siU","",$text);
-		return substr(strip_tags($text),0,150);
+trait Presenter
+{
+    public function the_excerpt($text)
+    {
+        $text = preg_replace('~<img(.*)>~siU', '', $text);
+
+        return substr(strip_tags($text), 0, 150);
     }
-	
-	function getGalleryAttribute(){
-		
-		if(@unserialize($this->gallery_img)){
-			return unserialize($this->gallery_img);
-		}else{
-			return $this->gallery_img;
-		}
-	 
-	}
-	function getCityAr(){
-		return City::pluck('name', 'id')->toArray();
+
+    public function getGalleryAttribute()
+    {
+
+        if (@unserialize($this->gallery_img)) {
+            return unserialize($this->gallery_img);
+        } else {
+            return $this->gallery_img;
+        }
+
     }
-	 function getNameAttribute($v){
-		 
-		return $this->getTransField('name', $v);
+
+    public function getCityAr()
+    {
+        return City::pluck('name', 'id')->toArray();
     }
-	 function getTextAttribute($v){
-		 
-		return $this->getTransField('text', $v);
+
+    public function getNameAttribute($v)
+    {
+
+        return $this->getTransField('name', $v);
+    }
+
+    public function getTextAttribute($v)
+    {
+
+        return $this->getTransField('text', $v);
     }
 }
-

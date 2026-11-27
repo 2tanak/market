@@ -81,6 +81,9 @@ export default defineStore('messages', {
       }
       this.selectedMessages = [...messages];
     },
-
+    setMessage(message) {
+		
+      this.selectedMessages = [message, ...this.selectedMessages];
+    },
   }
 });

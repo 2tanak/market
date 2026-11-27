@@ -1,15 +1,13 @@
 <?php
+
 namespace Modules\Admin\Traits\Api;
 
-use Illuminate\Http\Request;
-
-trait MainCrudMethod  {
-    use MainSystemMethods;
-    use MainListMethod;
+trait MainCrudMethod
+{
     use MainCreateMethod;
-    use MainUpdateMethod;
     use MainDeleteMethod;
+    use MainListMethod;
     use MainShowMethod;
+    use MainSystemMethods;
+    use MainUpdateMethod;
 }
-
-?>

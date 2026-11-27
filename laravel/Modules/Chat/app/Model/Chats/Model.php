@@ -14,6 +14,7 @@ class Model extends ModelParent
     use Presenter;
 
     protected $table = 'chats';
+
     protected $fillable = ['listing_id', 'buyer_id', 'seller_id', 'created_at', 'updated_at'];
 
     public function product()

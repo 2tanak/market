@@ -5,7 +5,6 @@ namespace Modules\Entity\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Entity\database\seeders\LanguageSeeder;
 
-
 class EntityDatabaseSeeder extends Seeder
 {
     /**
