@@ -20,6 +20,7 @@ start:
 	docker-compose exec -d --user www node npm run dev
 	@echo "Ожидание запуска контейнеров..."
 	@sleep 3
+	docker exec laravel-worker php artisan queue:monitor default
 	@echo ""
 	@echo "========================"
 	@echo "  ПРОЕКТ УСПЕШНО ЗАПУЩЕН!"
